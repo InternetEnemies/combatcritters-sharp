@@ -1,6 +1,6 @@
 namespace CombatCrittersSharp.rest.routes;
 
-public class AuthRoutes
+public static class AuthRoutes
 {
     public static string Register()
     {

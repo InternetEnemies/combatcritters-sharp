@@ -1,6 +1,6 @@
 namespace CombatCrittersSharp.rest.routes;
 
-public class CardsRoutes
+public static class CardsRoutes
 {
     /// <summary>
     /// - GET
