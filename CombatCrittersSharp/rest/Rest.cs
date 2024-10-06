@@ -1,6 +1,6 @@
 using System.Text;
 using System.Text.Json;
-using CombatCrittersSharp.rest.exception;
+using CombatCrittersSharp.exception;
 
 namespace CombatCrittersSharp.rest;
 

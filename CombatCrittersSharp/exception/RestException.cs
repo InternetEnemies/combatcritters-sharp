@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace CombatCrittersSharp.rest.exception;
+namespace CombatCrittersSharp.exception;
 
 public class RestException(string message, HttpStatusCode statusCode, HttpResponseMessage response)
     : Exception(message)

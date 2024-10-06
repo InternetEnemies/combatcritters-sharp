@@ -1,5 +1,5 @@
-﻿using CombatCrittersSharp.rest;
-using CombatCrittersSharp.rest.exception;
+﻿using CombatCrittersSharp.exception;
+using CombatCrittersSharp.rest;
 using CombatCrittersSharp.rest.payloads;
 using CombatCrittersSharp.rest.routes;
 

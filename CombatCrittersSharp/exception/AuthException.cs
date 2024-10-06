@@ -1,3 +1,3 @@
-namespace CombatCrittersSharp.rest.exception;
+namespace CombatCrittersSharp.exception;
 
 public class AuthException(string message, Exception inner) : Exception(message, inner);
