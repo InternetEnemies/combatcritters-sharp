@@ -12,6 +12,18 @@ public class Rest : IRest
     {
         this._httpClient = new HttpClient {BaseAddress = new Uri(baseUrl)};
     }
+    public async Task<HttpResponseMessage> Put(string endpoint, object body)
+    {
+        var res = await this._httpClient.PutAsync(endpoint, ObjectToContent(body));
+        CheckResponse(res);
+        return res;
+    }
+    public async Task<HttpResponseMessage> Patch(string endpoint, object body)
+    {
+        var res = await this._httpClient.PatchAsync(endpoint, ObjectToContent(body));
+        CheckResponse(res);
+        return res;
+    }
     public async Task<HttpResponseMessage> Post(string endpoint, object body)
     {
         var res = await this._httpClient.PostAsync(endpoint, ObjectToContent(body));
@@ -23,6 +35,13 @@ public class Rest : IRest
     {
         
         var res = await this._httpClient.GetAsync(endpoint);
+        CheckResponse(res);
+        return res;
+    }
+    public async Task<HttpResponseMessage> Delete(string endpoint)
+    {
+        
+        var res = await this._httpClient.DeleteAsync(endpoint);
         CheckResponse(res);
         return res;
     }
