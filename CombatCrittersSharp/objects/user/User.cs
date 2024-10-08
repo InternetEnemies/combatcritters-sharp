@@ -1,12 +1,24 @@
 using CombatCrittersSharp.managers;
+using CombatCrittersSharp.managers.interfaces;
+using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.user;
 
-public class User(IDeckManager decks, ICardsManager cards, string username, string id)
+public class User(IDeckManager decks, IUserCardsManager cards, string username, int id)
     : IUser
 {
     public IDeckManager Decks { get; } = decks;
-    public ICardsManager Cards { get; } = cards;
+    public IUserCardsManager Cards { get; } = cards;
     public string Username { get; } = username;
-    public string Id { get; } = id;
+    public int Id { get; } = id;
+
+    public User(string username, int id): this (
+            new DeckManager(),
+            new UserCardsManager(),
+            username,
+            id
+        )
+    {
+        
+    }
 }

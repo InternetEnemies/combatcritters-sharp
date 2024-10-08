@@ -1,4 +1,5 @@
 using CombatCrittersSharp.managers;
+using CombatCrittersSharp.managers.interfaces;
 
 namespace CombatCrittersSharp.objects.user;
 
@@ -8,7 +9,7 @@ namespace CombatCrittersSharp.objects.user;
 public interface IUser
 {
     IDeckManager Decks { get; }
-    ICardsManager Cards { get; }
+    IUserCardsManager Cards { get; }
     string Username { get; }
-    string Id { get; }
+    int Id { get; }
 }
