@@ -1,6 +1,10 @@
 namespace CombatCrittersSharp.managers.interfaces;
 
-public class IUserCardsManager
+
+/// <summary>
+/// provide interface for a users cards
+/// </summary>
+public interface IUserCardsManager
 {
     
 }

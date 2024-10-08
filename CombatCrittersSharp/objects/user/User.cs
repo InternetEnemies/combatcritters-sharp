@@ -4,6 +4,13 @@ using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.user;
 
+/// <summary>
+/// represents a user
+/// </summary>
+/// <param name="decks"></param>
+/// <param name="cards"></param>
+/// <param name="username"></param>
+/// <param name="id"></param>
 public class User(IDeckManager decks, IUserCardsManager cards, string username, int id)
     : IUser
 {
