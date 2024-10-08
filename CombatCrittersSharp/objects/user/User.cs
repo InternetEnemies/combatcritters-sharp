@@ -25,7 +25,10 @@ public class User(IDeckManager decks, IUserCardsManager cards, string username, 
             username,
             id
         )
+    { }
+
+    public static User From(UserPayload payload)
     {
-        
+        return new User(payload.username, payload.userid);
     }
 }
