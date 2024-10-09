@@ -1,5 +1,6 @@
 using CombatCrittersSharp.managers;
 using CombatCrittersSharp.managers.interfaces;
+using CombatCrittersSharp.objects.profile;
 using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.user;
@@ -17,6 +18,7 @@ public class User
     private readonly IClient _client;
     public IDeckManager Decks { get; }
     public IUserCardsManager Cards { get; }
+    public IProfile Profile { get; }
     public string Username { get; }
     public int Id { get; }
 
@@ -28,6 +30,7 @@ public class User
         
         this.Decks = new DeckManager(client, this);
         this.Cards = new UserCardsManager();
+        this.Profile = new Profile(client, this);
     }
 
 
