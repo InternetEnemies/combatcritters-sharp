@@ -15,7 +15,7 @@ public record CardPayload(
     public const string TypeCritter = "critter";
     public const string TypeItem = "item";
     
-    ICard ToCard()
+    public ICard ToCard()
     {
         switch (this.type)
         {
