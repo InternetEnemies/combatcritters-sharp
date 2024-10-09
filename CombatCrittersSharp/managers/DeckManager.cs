@@ -28,7 +28,7 @@ public class DeckManager(IClient client, IUser user): IDeckManager
             List<IDeck> decks = new List<IDeck>();
             foreach (DeckDetailsPayload deck in payload)
             {
-                decks.Add(new Deck(deck.deckid, deck.name));
+                decks.Add(new Deck(_client, _user, deck.deckid, deck.name));
             }
             return decks;
         }
