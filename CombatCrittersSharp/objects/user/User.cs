@@ -11,24 +11,28 @@ namespace CombatCrittersSharp.objects.user;
 /// <param name="cards"></param>
 /// <param name="username"></param>
 /// <param name="id"></param>
-public class User(IDeckManager decks, IUserCardsManager cards, string username, int id)
+public class User
     : IUser
 {
-    public IDeckManager Decks { get; } = decks;
-    public IUserCardsManager Cards { get; } = cards;
-    public string Username { get; } = username;
-    public int Id { get; } = id;
+    private readonly IClient _client;
+    public IDeckManager Decks { get; }
+    public IUserCardsManager Cards { get; }
+    public string Username { get; }
+    public int Id { get; }
 
-    public User(string username, int id): this (
-            new DeckManager(),
-            new UserCardsManager(),
-            username,
-            id
-        )
-    { }
-
-    public static User From(UserPayload payload)
+    public User(IClient client, string username, int id)
     {
-        return new User(payload.username, payload.userid);
+        this._client = client;
+        this.Id = id;
+        this.Username = username;
+        
+        this.Decks = new DeckManager(client, this);
+        this.Cards = new UserCardsManager();
+    }
+
+
+    public static User From(IClient client, UserPayload payload)
+    {
+        return new User(client, payload.username, payload.userid);
     }
 }

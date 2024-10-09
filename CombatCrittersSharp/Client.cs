@@ -22,7 +22,7 @@ public class Client(string apiUri) : IClient
             {
                 throw new Exception("200 success but no payload was provided... how? something is bronk");// If this happens the api is being silly
             }
-            this.User = objects.user.User.From(payload);
+            this.User = objects.user.User.From(this, payload);
         }
         catch (RestException e)
         {
