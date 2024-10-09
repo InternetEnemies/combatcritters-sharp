@@ -1,4 +1,4 @@
-namespace CombatCrittersSharp.resr.routes;
+namespace CombatCrittersSharp.rest.routes;
 
 public static class ProfileRoutes
 {
