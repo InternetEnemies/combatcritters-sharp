@@ -12,7 +12,7 @@ namespace CombatCrittersSharp.objects.card;
 /// <param name="damage"></param>
 /// <param name="health"></param>
 /// <param name="abilities"></param>
-public class CardCritter(int cardId, string name, int playCOst, Rarity rarity, string image, string description, int damage, int health, int[] abilities) : Card(cardId, name, playCOst, rarity, image, description), ICardCritter
+public class CardCritter(int cardId, string name, int playCOst, Rarity rarity, string image, string description, int damage, int health, List<int> abilities) : Card(cardId, name, playCOst, rarity, image, description), ICardCritter
 {
     public override void Accept(ICardVisitor visitor)
     {
@@ -21,5 +21,5 @@ public class CardCritter(int cardId, string name, int playCOst, Rarity rarity, s
 
     public int Damage { get; } = damage;
     public int Health { get; } = health;
-    public int[] Abilities { get; } = abilities;
+    public List<int> Abilities { get; } = abilities;
 }

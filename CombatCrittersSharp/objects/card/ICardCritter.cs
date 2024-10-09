@@ -7,5 +7,5 @@ public interface ICardCritter: ICard
 {
     int Damage { get; }
     int Health { get; }
-    int[] Abilities { get; }
+    List<int> Abilities { get; }
 }
