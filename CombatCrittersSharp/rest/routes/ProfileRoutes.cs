@@ -4,6 +4,7 @@ public static class ProfileRoutes
 {
     /// <summary>
     /// - GET
+    /// - PUT
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
