@@ -9,6 +9,6 @@ public static class ProfileRoutes
     /// <param name="userId"></param>
     /// <returns></returns>
     public static string Profile(int userId){
-        return $"/users/${userId}/profile";
+        return $"/users/{userId}/profile";
     }
 }
