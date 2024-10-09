@@ -4,6 +4,9 @@ using CombatCrittersSharp.exception;
 
 namespace CombatCrittersSharp.rest;
 
+/// <summary>
+/// provide rest methods implementation
+/// </summary>
 public class Rest : IRest
 {
     private readonly HttpClient _httpClient;
