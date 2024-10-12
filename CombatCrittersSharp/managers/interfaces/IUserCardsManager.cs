@@ -1,3 +1,5 @@
+using CombatCrittersSharp.objects.card;
+
 namespace CombatCrittersSharp.managers.interfaces;
 
 
@@ -6,5 +8,8 @@ namespace CombatCrittersSharp.managers.interfaces;
 /// </summary>
 public interface IUserCardsManager
 {
-    
+    /// <summary>
+    /// get the users decks
+    /// </summary>
+    Task<List<ICard>> GetUserCards();
 }
