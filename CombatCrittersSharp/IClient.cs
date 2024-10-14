@@ -1,3 +1,4 @@
+using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest;
 
 namespace CombatCrittersSharp;
@@ -5,6 +6,7 @@ namespace CombatCrittersSharp;
 public interface IClient
 {
     IRest Rest { get; }// rest handler for the client
+    IUser? User { get; }// user 
     
     /// <summary>
     /// login the client with the provided username and password
