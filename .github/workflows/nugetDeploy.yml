@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - nuget-package-create # used for testing, this should be switched to on release creation
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Deploy to NuGet
+        uses: alsi-lawr/deploy-nuget@v1
+        with:
+          project: 'CombatCrittersSharp'  
+          version: ${{ github.event.release.tag_name }}
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}  
+          dotnet-version: '8.0'
