@@ -1,9 +1,8 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - nuget-package-create # used for testing, this should be switched to on release creation
+  release: 
+    types: [created]
 
 jobs:
   deploy:
