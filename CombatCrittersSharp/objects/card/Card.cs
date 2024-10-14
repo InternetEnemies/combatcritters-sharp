@@ -13,12 +13,12 @@ namespace CombatCrittersSharp.objects.card
     /// <param name="description"></param>
     public abstract class Card : ICard
     {
-        public int CardId { get; protected set;}
-        public string Name { get; protected set;}
-        public int PlayCost { get; protected set; }
-        public Rarity Rarity { get;protected set; }
-        public string Image { get;protected set; }
-        public string Description { get;protected set; }
+        public int CardId { get; private init;}
+        public string Name { get; private init;}
+        public int PlayCost { get; private init; }
+        public Rarity Rarity { get;private init; }
+        public string Image { get; private init; }
+        public string Description { get; private init; }
 
         //Constructor to initialize shard properties
         protected Card(int cardId, string name, int playCost, Rarity rarity, string image, string description)
