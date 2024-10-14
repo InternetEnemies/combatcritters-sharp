@@ -1,25 +1,31 @@
-namespace CombatCrittersSharp.objects.card;
+using CombatCrittersSharp.objects.card.Interfaces;
 
-/// <summary>
-/// card implementation for critter cards
-/// </summary>
-/// <param name="cardId"></param>
-/// <param name="name"></param>
-/// <param name="playCOst"></param>
-/// <param name="rarity"></param>
-/// <param name="image"></param>
-/// <param name="description"></param>
-/// <param name="damage"></param>
-/// <param name="health"></param>
-/// <param name="abilities"></param>
-public class CardCritter(int cardId, string name, int playCOst, Rarity rarity, string image, string description, int damage, int health, List<int> abilities) : Card(cardId, name, playCOst, rarity, image, description), ICardCritter
+namespace CombatCrittersSharp.objects.card
 {
-    public override void Accept(ICardVisitor visitor)
+    /// <summary>
+    /// CardCritters class inherits from Card and extends it with specific properties related to critters
+    /// </summary>
+    public class CardCritter : Card, ICardCritter
     {
-        visitor.VisitCritterCard(this);
-    }
 
-    public int Damage { get; } = damage;
-    public int Health { get; } = health;
-    public List<int> Abilities { get; } = abilities;
+        public int Damage { get; private set;} 
+        public int Health { get; private set;} 
+        public List<int> Abilities { get; private set; }
+
+        //Constructor that calls the base constructor and set critter-specific fields
+        public CardCritter(int cardId, string name, int playCost, Rarity rarity, string image, string description,
+                           int damage, int health, List<int> abilities) : base(cardId, name, playCost, rarity, image, description)
+        {
+            Damage = damage;
+            Health = health;
+            Abilities = abilities;
+        }
+
+        //Critters will accept visitors differently
+        public override void Accept(ICardVisitor visitor)
+        {
+            visitor.VisitCritterCard(this);
+        }
+    }
 }
+

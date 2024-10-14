@@ -1,4 +1,5 @@
 using CombatCrittersSharp.objects.card;
+using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.user;
 
 namespace CombatCrittersSharp.objects.deck;
