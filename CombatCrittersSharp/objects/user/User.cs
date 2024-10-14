@@ -29,7 +29,7 @@ public class User
         this.Username = username;
         
         this.Decks = new DeckManager(client, this);
-        this.Cards = new UserCardsManager();
+        this.Cards = new UserCardsManager(client, this);
         this.Profile = new Profile(client, this);
     }
 

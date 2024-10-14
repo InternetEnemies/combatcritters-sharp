@@ -1,21 +1,26 @@
-namespace CombatCrittersSharp.objects.card;
+using CombatCrittersSharp.objects.card.Interfaces;
 
-/// <summary>
-/// card implementation for Item cards
-/// </summary>
-/// <param name="cardId"></param>
-/// <param name="name"></param>
-/// <param name="playCOst"></param>
-/// <param name="rarity"></param>
-/// <param name="image"></param>
-/// <param name="description"></param>
-/// <param name="abilityId"></param>
-public class CardItem(int cardId, string name, int playCOst, Rarity rarity, string image, string description, int abilityId) : Card(cardId, name, playCOst, rarity, image, description), ICardItem
+namespace CombatCrittersSharp.objects.card
 {
-    public override void Accept(ICardVisitor visitor)
-    {
-        visitor.VisitItemCard(this);
-    }
+    /// <summary>
+    /// CartItem class extends Card but had properties specific to items
+    /// </summary>
 
-    public int AbilityId { get; } = abilityId;
+    public class CardItem : Card, ICardItem
+    {
+        public int AbilityId { get; private set; }
+
+        public CardItem(int cardId, string name, int playCost, Rarity rarity, string image, string description, int abilityID)
+            :base(cardId, name, playCost, rarity, image, description)
+        {
+            AbilityId = abilityID;
+        }
+        public override void Accept(ICardVisitor visitor)
+        {
+            visitor.VisitItemCard(this);
+        }
+
+        
+    } 
 }
+

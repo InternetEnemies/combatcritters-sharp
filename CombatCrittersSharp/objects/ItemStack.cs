@@ -1,11 +1,20 @@
-namespace CombatCrittersSharp.objects;
+using CombatCrittersSharp.objects.card.Interfaces;
 
-/// <summary>
-/// represents a stack of items
-/// </summary>
-/// <typeparam name="T"> type of item in the stack</typeparam>
-public class ItemStack<T>(T item, int amount)
+namespace CombatCrittersSharp.objects
 {
-    public T Item { get; init; } = item;
-    public int Amount { get; init; } = amount;
+    /// <summary>
+    /// represents a stack of items
+    /// </summary>
+    public class ItemStack<T> : IItemStack<T>
+    {
+        public T Item { get; }
+        public int Amount { get; }
+
+        public ItemStack (T item, int count)
+        {
+            Item = item;
+            Amount = count;
+        }
+    }
 }
+

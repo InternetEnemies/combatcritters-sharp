@@ -5,6 +5,7 @@ using CombatCrittersSharp.rest.routes;
 using CombatCrittersSharp.rest;
 using CombatCrittersSharp.objects.user;
 using System.Net.Http.Json;
+using CombatCrittersSharp.objects.card.Interfaces;
 
 namespace CombatCrittersSharp.objects.deck;
 

@@ -1,3 +1,9 @@
-namespace CombatCrittersSharp.rest.payloads;
+namespace CombatCrittersSharp.rest.payloads
+{
+    public record CardItemPayload(int abilityid)
+    {
+        
+    }
 
-public record CardItemPayload(int abilityid);
+}
+
