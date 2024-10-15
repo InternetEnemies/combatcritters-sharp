@@ -27,5 +27,10 @@ namespace CombatCrittersSharp.objects.card
             }
             return string.Join("&", _queryParameters.Select(kvp => $"{kvp.Key}={kvp.Value}"));
         }
+
+        public ICardQuery Build()
+        {
+            return new CardQuery(GetQueryString());  //Return an instance of the ICardQuery
+        }
     }
 }
