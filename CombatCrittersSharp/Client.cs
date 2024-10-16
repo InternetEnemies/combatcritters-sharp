@@ -35,7 +35,7 @@ public class Client(string apiUri) : IClient
     {
         try
         {
-            await Rest.Post(AuthRoutes.Login(),new RegisterPayload(username,password));
+            await Rest.Post(AuthRoutes.Register(),new RegisterPayload(username,password));
         }
         catch (RestException e)
         { 
