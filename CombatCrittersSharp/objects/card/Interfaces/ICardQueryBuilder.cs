@@ -6,5 +6,6 @@ namespace CombatCrittersSharp.objects.card.Interfaces
         ICardQueryBuilder ByType(string type);
         ICardQueryBuilder ByRarity(int rarity);
         string GetQueryString();
+        ICardQuery Build();
     }
 }
