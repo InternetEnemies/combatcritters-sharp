@@ -1,4 +1,6 @@
+using System.Security.Cryptography;
 using CombatCrittersSharp.objects.card.Interfaces;
+using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.card
 {
@@ -20,7 +22,7 @@ namespace CombatCrittersSharp.objects.card
         public string Image { get; private init; }
         public string Description { get; private init; }
 
-        //Constructor to initialize shard properties
+        //Constructor to initialize shared properties
         protected Card(int cardId, string name, int playCost, Rarity rarity, string image, string description)
         {
             CardId = cardId;
@@ -32,6 +34,7 @@ namespace CombatCrittersSharp.objects.card
 
         }
         public abstract void Accept(ICardVisitor visitor); //Each card can define how they accept visitors 
+
     }
 }
 

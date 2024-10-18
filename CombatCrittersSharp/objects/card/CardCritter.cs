@@ -1,4 +1,5 @@
 using CombatCrittersSharp.objects.card.Interfaces;
+using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.card
 {
@@ -8,9 +9,9 @@ namespace CombatCrittersSharp.objects.card
     public class CardCritter : Card, ICardCritter
     {
 
-        public int Damage { get; private set;} 
-        public int Health { get; private set;} 
-        public List<int> Abilities { get; private set; }
+        public int Damage { get; private init;} 
+        public int Health { get; private init;} 
+        public List<int> Abilities { get; private init; }
 
         //Constructor that calls the base constructor and set critter-specific fields
         public CardCritter(int cardId, string name, int playCost, Rarity rarity, string image, string description,
