@@ -41,7 +41,8 @@ namespace CombatCrittersSharp.objects.card
 
             if (_rarities.Count != 0)
             {
-                var raritiesString = string.Join(",", _rarities.Select(r => r.ToString())); //Convert each rarity enum value to its string
+                //Convert each rarity enum value to its integer equivalent and then to a string
+                var raritiesString = string.Join(",", _rarities.Select(r => ((int)r).ToString())); 
                 queryStrings.Add($"rarities={raritiesString}");
             } 
                 
