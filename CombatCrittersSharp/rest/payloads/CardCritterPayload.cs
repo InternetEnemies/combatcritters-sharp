@@ -4,8 +4,5 @@ namespace CombatCrittersSharp.rest.payloads
         int damage,
         int health,
         List<int> abilities
-    )
-    {
-
-    }
+    );
 }

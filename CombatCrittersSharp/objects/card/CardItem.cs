@@ -18,9 +18,7 @@ namespace CombatCrittersSharp.objects.card
         public override void Accept(ICardVisitor visitor)
         {
             visitor.VisitItemCard(this);
-        }
-
-        
+        }        
     } 
 }
 
