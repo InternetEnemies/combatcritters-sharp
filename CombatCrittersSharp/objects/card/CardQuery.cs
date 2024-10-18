@@ -1,5 +1,4 @@
 using CombatCrittersSharp.objects.card.Interfaces;
-using static CombatCrittersSharp.objects.card.Interfaces.ICardQuery;
 
 namespace CombatCrittersSharp.objects.card
 {
