@@ -13,7 +13,7 @@ namespace CombatCrittersSharp.objects.card.Interfaces
         void SetIds(List<int> ids);
         void SetOrder(CardOrder order);
         void SetOwned(bool owned);
-        void SetRarities(List<int> rarities);
+        void SetRarities(List<Rarity> rarities);
         void SetRaritiesInclude(bool include);
        
     }
