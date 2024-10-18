@@ -1,36 +1,82 @@
 using CombatCrittersSharp.objects.card.Interfaces;
+using static CombatCrittersSharp.objects.card.Interfaces.ICardQuery;
 
 namespace CombatCrittersSharp.objects.card
 {
     public class CardQueryBuilder : ICardQueryBuilder
     {
-        private Dictionary<string, string> _queryParameters = new();
+        private int _cost;
+        private bool _costLess;
+        private List<int> _ids;
+        private CardOrder _order;
+        private bool _owned;
+        private List<int> _rarities;
+        private bool _raritiesInclude;
+        
 
-        public ICardQueryBuilder ByType(string type)
+        //constructor
+        public CardQueryBuilder()
         {
-            _queryParameters["type"] = type;
-            return this;
+            //Reset the values
+            Reset();
         }
 
-        public ICardQueryBuilder ByRarity(int rarity)
-        {
-            _queryParameters["rarity"] = rarity.ToString();
-            return this;
-        }
-
-        public string GetQueryString()
-        {
-            //if no parameters are added, return an empty string (this mean "get all cards)
-            if (_queryParameters.Count == 0)
-            {
-                return string.Empty;
-            }
-            return string.Join("&", _queryParameters.Select(kvp => $"{kvp.Key}={kvp.Value}"));
-        }
-
+        //Builds the final query object
         public ICardQuery Build()
         {
-            return new CardQuery(GetQueryString());  //Return an instance of the ICardQuery
+            return new CardQuery(
+                _cost,
+                _costLess,
+                _ids,
+                _order,
+                _owned,
+                _rarities,
+                _raritiesInclude
+            );
+        }
+
+        public void Reset()
+        {
+            _cost = 0;
+            _costLess = true;
+            _ids = new List<int>();
+            _order = CardOrder.NONE;
+            _owned = false;
+            _rarities = new List<int>();
+            _raritiesInclude = false;
+        }
+        public void SetCost(int cost)
+        {
+            _cost = cost;
+        }
+        public void SetCostLess(bool costLess)
+        {
+            _costLess = costLess;
+        }
+
+        public void SetIds(List<int> ids)
+        {
+            _ids = ids;
+        }
+
+        public void SetOrder(CardOrder order)
+        {
+            _order = order;
+        }
+
+        public void SetOwned(bool owned)
+        {
+            _owned = owned;
+        }
+
+        public void SetRarities(List<int> rarities)
+        {
+            _rarities = rarities;
+        }
+
+        public void SetRaritiesInclude(bool include)
+        {
+            _raritiesInclude = include;
         }
     }
 }
