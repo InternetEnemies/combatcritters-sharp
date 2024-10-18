@@ -10,7 +10,7 @@ namespace CombatCrittersSharp.objects.card
         private List<int> _ids;
         private CardOrder _order;
         private bool _owned;
-        private List<int> _rarities;
+        private List<Rarity> _rarities;
         private bool _raritiesInclude;
         
 
@@ -42,7 +42,7 @@ namespace CombatCrittersSharp.objects.card
             _ids = new List<int>();
             _order = CardOrder.NONE;
             _owned = false;
-            _rarities = new List<int>();
+            _rarities = new List<Rarity>();
             _raritiesInclude = false;
         }
         public void SetCost(int cost)
@@ -69,7 +69,7 @@ namespace CombatCrittersSharp.objects.card
             _owned = owned;
         }
 
-        public void SetRarities(List<int> rarities)
+        public void SetRarities(List<Rarity> rarities)
         {
             _rarities = rarities;
         }

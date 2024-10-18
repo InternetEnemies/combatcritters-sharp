@@ -15,7 +15,6 @@ namespace CombatCrittersSharp.rest.payloads
     {
         public const string TypeCritter = "critter";
         public const string TypeItem = "item";
-        internal int abilityId;
 
         public ICard ToCard()
         {

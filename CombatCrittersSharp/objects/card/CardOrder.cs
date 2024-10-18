@@ -5,7 +5,7 @@ namespace CombatCrittersSharp.objects.card
         NONE, // will map to ""
         ID, // will map to "ID"
         NAME, // will map to "NAME"
-        PLAYCOST, // will map to "PLAY_COST
+        PLAY_COST, // will map to "PLAY_COST
         RARITY // will map to "RARITY"
     }
 }

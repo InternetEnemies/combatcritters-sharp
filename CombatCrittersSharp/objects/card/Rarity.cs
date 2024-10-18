@@ -5,9 +5,9 @@ namespace CombatCrittersSharp.objects.card;
 /// </summary>
 public enum Rarity
 {
-    Common,
-    Uncommon,
-    Rare,
-    Epic,
-    Legendary
+    COMMON,
+    UNCOMMON,
+    RARE,
+    EPIC,
+    LEGENDARY
 }
