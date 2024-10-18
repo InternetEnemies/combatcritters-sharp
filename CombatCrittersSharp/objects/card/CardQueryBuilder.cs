@@ -38,7 +38,7 @@ namespace CombatCrittersSharp.objects.card
         public void Reset()
         {
             _cost = 0;
-            _costLess = true;
+            _costLess = false;
             _ids = new List<int>();
             _order = CardOrder.NONE;
             _owned = false;
