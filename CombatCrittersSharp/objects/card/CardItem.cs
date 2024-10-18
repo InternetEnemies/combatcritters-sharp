@@ -1,5 +1,4 @@
 using CombatCrittersSharp.objects.card.Interfaces;
-using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.card
 {
