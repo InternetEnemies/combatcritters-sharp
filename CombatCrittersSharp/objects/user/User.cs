@@ -36,6 +36,6 @@ public class User
 
     public static User From(IClient client, UserPayload payload)
     {
-        return new User(client, payload.username, payload.userid);
+        return new User(client, payload.username, payload.id);
     }
 }
