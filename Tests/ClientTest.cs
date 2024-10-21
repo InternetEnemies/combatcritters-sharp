@@ -14,8 +14,9 @@ public class Tests : IntegrationTest
     }
 
     [Test]
-    public async Task test_login()
+    public async Task test_loginRegister()
     {
+        await _client.Register("jackal","jackal");
         await _client.Login("jackal","jackal");
         Assert.That(_client.User.Username, Is.EqualTo("jackal"));
         var res = await _client.Rest.Get("/ping");
