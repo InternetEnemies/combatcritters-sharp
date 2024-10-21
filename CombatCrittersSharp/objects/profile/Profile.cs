@@ -11,20 +11,28 @@ public class Profile : IProfile
 {
     private readonly IClient _client;
     private readonly IUser _user;
-    public Task<IDeck> featured_deck { get; }
+    public Task<IDeck>? featured_deck { get; }
 
-    public Profile(IClient client, IUser user){
+    public Profile(IClient client, IUser user)
+    {
         this._client = client;
         this._user = user;
+        featured_deck = null;
     }
-    public async Task<IDeck> GetDeck()
+    public async Task<IDeck?> GetDeck()
     {
-        try{
+        try
+        {
             ProfilePayload? payload = await (await _client.Rest.Get(ProfileRoutes.Profile(_user.Id))).Content.ReadFromJsonAsync<ProfilePayload>();
             if (payload == null)
             {
                 throw new Exception("200 success but no payload was provided... how? something is bronk");// If this happens the api is being silly
             }
+            if (payload.featured_deck == null)
+            {
+                return null; //Return null if no deck has been featured
+            }
+
             return new Deck(_client, _user, payload.featured_deck.deckid, payload.featured_deck.name);
         }
         catch (RestException e)
