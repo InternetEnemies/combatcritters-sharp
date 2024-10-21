@@ -1,14 +1,16 @@
 using CombatCrittersSharp;
+using Tests.Integration;
 
 namespace Tests;
 
-public class Tests
+public class Tests : IntegrationTest
 {
     IClient _client;
     [SetUp]
-    public void Setup()
+    public override async Task Setup()
     {
-        _client = new Client(TestUtils.ApiRoot);
+        await base.Setup();
+        _client = new Client(ApiUrl);
     }
 
     [Test]
