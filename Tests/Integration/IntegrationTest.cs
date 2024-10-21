@@ -50,7 +50,7 @@ public class IntegrationTest
             .WithNetwork(_network)
             .Build();
         await _apiContainer.StartAsync();
-        // this is the best worst solution I could figure out, this is terrible;
+        //* this is the best worst solution I could figure out, this is terrible;
         while (true)// wait until the api is online
         {
             try
