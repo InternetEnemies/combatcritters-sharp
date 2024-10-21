@@ -11,4 +11,9 @@ public static class AuthRoutes
     {
         return "/users/auth/login";
     }
+
+    public static string Logout()
+    {
+        return "/users/auth/logout";
+    }
 }
