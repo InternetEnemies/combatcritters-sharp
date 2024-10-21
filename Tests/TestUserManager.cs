@@ -1,18 +1,17 @@
 using CombatCrittersSharp;
 using CombatCrittersSharp.objects.card;
 using CombatCrittersSharp.objects.card.Interfaces;
+using Tests.Integration;
 
 namespace Tests;
 
-public class TestUserManager
+public class TestUserManager:ClientIntegrationTest
 {
     
-    IClient _client;
     [SetUp]
-    public async Task Setup()
+    public override async Task Setup()
     {
-        _client = new Client(TestUtils.ApiRoot);
-        await _client.Login("jackal", "jackal");
+        await base.Setup();
     }
 
     [Test]
