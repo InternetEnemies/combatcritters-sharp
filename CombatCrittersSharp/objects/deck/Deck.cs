@@ -12,13 +12,13 @@ namespace CombatCrittersSharp.objects.deck;
 /// <summary>
 /// represents a players deck
 /// </summary>
-public class Deck: IDeck
+public class Deck : IDeck
 {
     private IUser _user;
     private IClient _client;
     public int DeckId { get; }
     public string Name { get; }
-    public Task<List<ICard>> Cards { get; }
+
 
     public Deck(IClient client, IUser user, int deckId, string name)
     {
@@ -29,8 +29,9 @@ public class Deck: IDeck
     }
 
     public async Task<List<ICard>> GetCards()
-    {   
-        try{
+    {
+        try
+        {
             CardPayload[]? payload = await (await _client.Rest.Get(DeckRoutes.DeckCards(_user.Id, DeckId))).Content.ReadFromJsonAsync<CardPayload[]>();
             if (payload == null)
             {
