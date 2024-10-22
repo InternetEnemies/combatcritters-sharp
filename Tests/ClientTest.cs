@@ -1,19 +1,22 @@
 using CombatCrittersSharp;
+using Tests.Integration;
 
 namespace Tests;
 
-public class Tests
+public class Tests : IntegrationTest
 {
     IClient _client;
     [SetUp]
-    public void Setup()
+    public override async Task Setup()
     {
-        _client = new Client(TestUtils.ApiRoot);
+        await base.Setup();
+        _client = new Client(ApiUrl);
     }
 
     [Test]
-    public async Task test_login()
+    public async Task test_loginRegister()
     {
+        await _client.Register("jackal","jackal");
         await _client.Login("jackal","jackal");
         Assert.That(_client.User.Username, Is.EqualTo("jackal"));
         var res = await _client.Rest.Get("/ping");
