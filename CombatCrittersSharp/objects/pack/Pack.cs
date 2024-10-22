@@ -1,4 +1,5 @@
 using CombatCrittersSharp.objects.card.Interfaces;
+using CombatCrittersSharp.objects.visitor;
 
 namespace CombatCrittersSharp.objects.pack;
 
@@ -32,8 +33,8 @@ public class Pack : IPack
         throw new NotImplementedException();
     }
 
-    public Task setList(List<ICard> cards)
+    public void accept(IItemVisitor visitor)
     {
-        throw new NotImplementedException();
+        visitor.VisitPack(this);
     }
 }

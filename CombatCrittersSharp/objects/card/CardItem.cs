@@ -1,4 +1,5 @@
 using CombatCrittersSharp.objects.card.Interfaces;
+using CombatCrittersSharp.objects.visitor;
 
 namespace CombatCrittersSharp.objects.card
 {
@@ -19,6 +20,11 @@ namespace CombatCrittersSharp.objects.card
         {
             visitor.VisitItemCard(this);
         }        
+
+        public override void Accept(IItemVisitor visitor)
+        {
+            visitor.VisitCardItem(this);
+        }
     } 
 }
 

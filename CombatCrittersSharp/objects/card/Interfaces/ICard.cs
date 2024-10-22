@@ -1,3 +1,5 @@
+using CombatCrittersSharp.objects.visitor;
+
 namespace CombatCrittersSharp.objects.card.Interfaces
 {
     /// <summary>
@@ -12,6 +14,6 @@ namespace CombatCrittersSharp.objects.card.Interfaces
         string Image { get; }
         string Description { get; }
         void Accept(ICardVisitor visitor); //This methos is part of the visitor patterd which allows different operations to be performed on cards without modifying their structure.
-
+        void Accept(IItemVisitor visitor);
     }
 }

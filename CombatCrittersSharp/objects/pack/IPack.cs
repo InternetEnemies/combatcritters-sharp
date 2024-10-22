@@ -1,5 +1,6 @@
 using System.Data;
 using CombatCrittersSharp.objects.card.Interfaces;
+using CombatCrittersSharp.objects.visitor;
 
 namespace CombatCrittersSharp.objects.pack;
 
@@ -11,5 +12,5 @@ public interface IPack
     Dictionary<int, int> probabilites { get; } // dict for rarity and its weight
 
     Task<List<ICard>> GetSetList(); // get the cards in the pack pool
-    Task setList(List<ICard> cards); // set the cards in the pack pool
+    void accept(IItemVisitor visitor); // accept a visitor
 }
