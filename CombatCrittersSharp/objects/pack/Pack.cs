@@ -12,6 +12,13 @@ public class Pack : IPack
 
     public Dictionary<int, int> probabilites { get; }
 
+    public Pack(string name, string image, Dictionary<int, int> probabilites)
+    {
+        this.name = name;
+        this.image = image;
+        this.probabilites = probabilites;
+    }
+
     public Pack(string name, int packId, string image, Dictionary<int, int> probabilites)
     {
         this.name = name;

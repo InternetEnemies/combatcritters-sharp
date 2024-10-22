@@ -11,7 +11,7 @@ public record PackPayload(
 public record PackCreatorPayload(
     PackCardSlotPayload slot,
     int[] contents,
-    PackPayload pack_details
+    PackCreationDetailsPayload pack_details
 );
 
 public record PackCardSlotPayload(
@@ -26,4 +26,9 @@ public record PackCardSlotItem(
 
 public record PackContentsPayload(
     CardPayload[] cards
+);
+
+public record PackCreationDetailsPayload(
+    string name,
+    string image
 );

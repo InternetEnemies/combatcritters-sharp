@@ -6,7 +6,6 @@ namespace CombatCrittersSharp.objects.packBuilder;
 public class PackBuilder : IPackBuilder
 {
     private string name;
-    private int packId;
     private string image;
     private Dictionary<int, int> probabilites;
     private List<ICard> setList;
@@ -14,7 +13,6 @@ public class PackBuilder : IPackBuilder
     public PackBuilder()
     {
         this.name = "";
-        this.packId = 0;
         this.image = "";
         this.probabilites = new Dictionary<int, int>();
         this.setList = new List<ICard>();
@@ -23,11 +21,6 @@ public class PackBuilder : IPackBuilder
     public void SetName(string name)
     {
         this.name = name;
-    }
-
-    public void SetPackId(int packId)
-    {
-        this.packId = packId;
     }
 
     public void SetImage(string image)
@@ -48,6 +41,6 @@ public class PackBuilder : IPackBuilder
     public IPack Build()
     {
         // TODO: Implement this method, need tp check if the pack has all the required fields
-        return new Pack(name, packId, image, probabilites);
+        return new Pack(name, image, probabilites);
     }
 }
