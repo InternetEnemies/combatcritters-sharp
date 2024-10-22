@@ -1,3 +1,4 @@
+using CombatCrittersSharp.managers;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest;
 
@@ -7,6 +8,7 @@ public interface IClient
 {
     IRest Rest { get; }// rest handler for the client
     IUser? User { get; }// user 
+    PackManager PackManager { get; }// pack manager for the client
     
     /// <summary>
     /// login the client with the provided username and password

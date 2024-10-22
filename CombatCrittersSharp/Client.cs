@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using CombatCrittersSharp.exception;
+using CombatCrittersSharp.managers;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest;
 using CombatCrittersSharp.rest.payloads;
@@ -11,6 +12,7 @@ public class Client(string apiUri) : IClient
 {
     public IRest Rest { get; } = new Rest(apiUri);
     public IUser? User { get; private set; }
+    public PackManager PackManager { get; } = new PackManager();
 
 
     public async Task Login(string username, string password)
