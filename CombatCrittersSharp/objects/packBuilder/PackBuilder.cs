@@ -43,4 +43,12 @@ public class PackBuilder : IPackBuilder
         // TODO: Implement this method, need tp check if the pack has all the required fields
         return new Pack(name, image, probabilites);
     }
+
+    public void Reset()
+    {
+        this.name = "";
+        this.image = "";
+        this.probabilites = new Dictionary<int, int>();
+        this.setList = new List<ICard>();
+    }
 }
