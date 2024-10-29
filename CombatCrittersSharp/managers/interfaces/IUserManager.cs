@@ -1,3 +1,4 @@
+using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.managers.interfaces
@@ -8,6 +9,6 @@ namespace CombatCrittersSharp.managers.interfaces
         /// Fetches all uses from the server
         /// </summary>
         /// <returns></returns>
-        Task<List<UserPayload>> GetAllUsers();
+        Task<List<IUser>> GetAllUsersWithProfiles();
     }
 }
