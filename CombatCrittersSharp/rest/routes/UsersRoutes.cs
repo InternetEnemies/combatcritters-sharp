@@ -10,5 +10,16 @@ namespace CombatCrittersSharp.rest.routes
         {
             return "/admin/users";
         }
+
+        /// <summary>
+        /// -DELETE a user by ID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>The delete user routes</returns>
+        public static string DeleteUser(int userId)
+        {
+            return $"/admin/users/{userId}";
+        }
+
     }
 }
