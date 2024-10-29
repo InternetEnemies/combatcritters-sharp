@@ -43,6 +43,7 @@ namespace CombatCrittersSharp.managers
 
                     //Load and set the featured deck for the user's profile
                     var profileDeck = await user.Profile.GetDeck();
+
                     user.ProfileDeck = profileDeck;
 
                     users.Add(user);

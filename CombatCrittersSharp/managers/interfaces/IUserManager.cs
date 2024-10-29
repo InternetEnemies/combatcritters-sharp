@@ -10,5 +10,6 @@ namespace CombatCrittersSharp.managers.interfaces
         /// </summary>
         /// <returns></returns>
         Task<List<IUser>> GetAllUsersWithProfiles();
+
     }
 }
