@@ -1,5 +1,6 @@
 using CombatCrittersSharp.managers;
 using CombatCrittersSharp.managers.interfaces;
+using CombatCrittersSharp.objects.deck;
 using CombatCrittersSharp.objects.profile;
 using CombatCrittersSharp.rest.payloads;
 
@@ -22,12 +23,15 @@ public class User
     public string Username { get; }
     public int Id { get; }
 
+    //Property to hold user's featured deck
+    public IDeck? ProfileDeck { get; set; }
+
     public User(IClient client, string username, int id)
     {
         this._client = client;
         this.Id = id;
         this.Username = username;
-        
+
         this.Decks = new DeckManager(client, this);
         this.Cards = new UserCardsManager(client, this);
         this.Profile = new Profile(client, this);

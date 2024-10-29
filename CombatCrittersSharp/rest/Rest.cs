@@ -10,10 +10,10 @@ namespace CombatCrittersSharp.rest;
 public class Rest : IRest
 {
     private readonly HttpClient _httpClient;
-    
+
     public Rest(string baseUrl)
     {
-        this._httpClient = new HttpClient {BaseAddress = new Uri(baseUrl)};
+        this._httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
     }
     public async Task<HttpResponseMessage> Put(string endpoint, object body)
     {
@@ -36,14 +36,14 @@ public class Rest : IRest
 
     public async Task<HttpResponseMessage> Get(string endpoint)
     {
-        
+
         var res = await this._httpClient.GetAsync(endpoint);
         CheckResponse(res);
         return res;
     }
     public async Task<HttpResponseMessage> Delete(string endpoint)
     {
-        
+
         var res = await this._httpClient.DeleteAsync(endpoint);
         CheckResponse(res);
         return res;
