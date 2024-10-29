@@ -56,5 +56,18 @@ namespace CombatCrittersSharp.managers
                 throw new AuthException("Failed to get users", e);
             }
         }
+
+        public async Task DeleteUser(int userId)
+        {
+            try
+            {
+                //The response status code is checked internally 
+                await _client.Rest.Delete(UsersRoutes.DeleteUser(userId));
+            }
+            catch (RestException e)
+            {
+                throw new AuthException($"Failed to delete user with ID {userId}", e);
+            }
+        }
     }
 }

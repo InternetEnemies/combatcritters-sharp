@@ -11,5 +11,12 @@ namespace CombatCrittersSharp.managers.interfaces
         /// <returns></returns>
         Task<List<IUser>> GetAllUsersWithProfiles();
 
+        /// <summary>
+        /// Delete a user by ID
+        /// </summary>
+        /// <param name="userId">The ID of the user to delete</param>
+        /// <returns></returns>
+        Task DeleteUser(int userId);
+
     }
 }
