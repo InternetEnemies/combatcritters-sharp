@@ -17,6 +17,8 @@ public class IntegrationTest
     private static readonly string DbPass = "critter_db";
     private static readonly string DbHost = "postgres";
     private static readonly int DbPort = 5432;
+    private static readonly string Origin = "http://combatcritters.ca";
+    private static readonly string OriginDev = "http://localhost:3000";
     
 
     private IContainer _apiContainer;
@@ -47,6 +49,8 @@ public class IntegrationTest
             .WithEnvironment("DB_HOST",$"{DbHost}:{DbPort}")
             .WithEnvironment("DB_USER",DbUser)
             .WithEnvironment("DB_PASS",DbPass)
+            .WithEnvironment("ORIGIN", Origin)
+            .WithEnvironment("ORIGIN_DEV", OriginDev)
             .WithNetwork(_network)
             .Build();
         await _apiContainer.StartAsync();
