@@ -20,6 +20,8 @@ public class User
     public IDeckManager Decks { get; }
     public IUserCardsManager Cards { get; }
     public IProfile Profile { get; }
+
+    public IPackManager Packs { get; }
     public string Username { get; }
     public int Id { get; }
 
@@ -35,6 +37,7 @@ public class User
         this.Decks = new DeckManager(client, this);
         this.Cards = new UserCardsManager(client, this);
         this.Profile = new Profile(client, this);
+        this.Packs = new PacksManager(client, this);
     }
 
 
