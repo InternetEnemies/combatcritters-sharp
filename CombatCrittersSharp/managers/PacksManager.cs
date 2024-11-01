@@ -1,11 +1,10 @@
 using System.Net.Http.Json;
-using System.Reflection;
+
 using CombatCrittersSharp.exception;
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.pack;
 using CombatCrittersSharp.objects.user;
-using CombatCrittersSharp.rest;
 using CombatCrittersSharp.rest.payloads;
 using CombatCrittersSharp.rest.routes;
 
@@ -86,7 +85,36 @@ namespace CombatCrittersSharp.managers
             }
             catch (RestException e)
             {
-                throw new AuthException("Failed to get packs by id", e);
+                throw new AuthException("Failed to retrieve pack content by id", e);
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a pack by its ID
+        /// </summary>
+        /// <param name="packId">The ID of the pack to retrieve</param>
+        /// <returns></returns>
+        /// <exception cref="AuthException"></exception>
+        public async Task<Pack> GetPackByIdAsync(int packId)
+        {
+            try
+            {
+                var response = await _client.Rest.Get(PackRoutes.Pack(packId));
+
+
+                //Deserialize the response to a PackDetailsPayload
+                PackDetailsPayload? payload = await response.Content.ReadFromJsonAsync<PackDetailsPayload>();
+
+                if (payload == null)
+                {
+                    throw new RestException("Pack details not found for the given ID", response.StatusCode, response);
+                }
+
+                return Pack.FromPackDetailsPayload(payload, _client.Rest);
+            }
+            catch (RestException e)
+            {
+                throw new AuthException("Failed to get pack by ID", e);
             }
         }
 

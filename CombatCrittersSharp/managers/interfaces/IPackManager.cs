@@ -17,5 +17,12 @@ namespace CombatCrittersSharp.managers.interfaces
         /// <param name="packId"></param>
         /// <returns></returns>
         Task<List<ICard>> GetPackContentsAsync(int packId);
+
+        /// <summary>
+        /// Retrieces a pack by its ID
+        /// </summary>
+        /// <param name="packId"></param>
+        /// <returns></returns>
+        Task<Pack> GetPackByIdAsync(int packId);
     }
 }
