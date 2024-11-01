@@ -1,5 +1,6 @@
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.pack;
+using CombatCrittersSharp.objects.userpack;
 
 namespace CombatCrittersSharp.managers.interfaces
 {
@@ -24,5 +25,12 @@ namespace CombatCrittersSharp.managers.interfaces
         /// <param name="packId"></param>
         /// <returns></returns>
         Task<Pack> GetPackByIdAsync(int packId);
+
+        /// <summary>
+        /// Retrieves the packs in the user's inventory
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<UserPack>> GetUserPacksAsync(int userId);
     }
 }

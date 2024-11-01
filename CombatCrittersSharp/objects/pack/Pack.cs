@@ -1,7 +1,6 @@
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.rest;
 using CombatCrittersSharp.rest.payloads;
-using CombatCrittersSharp.rest.routes;
 
 namespace CombatCrittersSharp.objects.pack
 {
@@ -32,7 +31,7 @@ namespace CombatCrittersSharp.objects.pack
         }
 
         /// <summary>
-        /// Sets the contents of this pack.
+        /// Sets the contents of this pack. This will be used during PACK CREATION
         /// </summary>
         /// <param name="contents"> The list of cards to set as content</param>
         public void SetContents(List<ICard> contents)

@@ -1,10 +1,10 @@
 using System.Net.Http.Json;
-
 using CombatCrittersSharp.exception;
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.pack;
 using CombatCrittersSharp.objects.user;
+using CombatCrittersSharp.objects.userpack;
 using CombatCrittersSharp.rest.payloads;
 using CombatCrittersSharp.rest.routes;
 
@@ -115,6 +115,35 @@ namespace CombatCrittersSharp.managers
             catch (RestException e)
             {
                 throw new AuthException("Failed to get pack by ID", e);
+            }
+        }
+
+        public async Task<List<UserPack>> GetUserPacksAsync(int userId)
+        {
+            try
+            {
+                var response = await _client.Rest.Get(PackRoutes.UserPacks(userId));
+
+                UserPackPayload[]? payload = await response.Content.ReadFromJsonAsync<UserPackPayload[]>();
+
+                var userPacks = new List<UserPack>();
+
+                if (payload != null)
+                {
+                    foreach (var UserPackPayload in payload)
+                    {
+                        //Create a pack instance from the pack details in UserPackPayload
+                        var pack = Pack.FromPackDetailsPayload(UserPackPayload.Item, _client.Rest);
+
+                        //Add the pack and count to the 
+                        userPacks.Add(new UserPack(pack, UserPackPayload.Count));
+                    }
+                }
+                return userPacks;
+            }
+            catch (RestException e)
+            {
+                throw new AuthException("Failed to user packs", e);
             }
         }
 
