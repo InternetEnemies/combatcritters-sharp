@@ -1,7 +1,10 @@
+using System.Net.Http.Json;
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects.pack;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest;
+using CombatCrittersSharp.rest.payloads;
+using CombatCrittersSharp.rest.routes;
 
 namespace CombatCrittersSharp.managers
 {
@@ -19,7 +22,23 @@ namespace CombatCrittersSharp.managers
 
         public async Task<List<Pack>> GetAllPacksAsync()
         {
-            return new List<Pack>();
+            var response = await _client.Rest.Get(PackRoutes.Packs());
+
+            //Deserialize to PackDetailsPayload
+            PackDetailsPayload[]? payload = await response.Content.ReadFromJsonAsync<PackDetailsPayload[]>();
+
+            var packs = new List<Pack>();
+
+            if (payload != null)
+            {
+                foreach (PackDetailsPayload pack in payload)
+                {
+                    packs.Add(Pack.FromPackDetailsPayload(pack, _client.Rest));
+
+                }
+            }
+
+            return packs;
         }
 
 
