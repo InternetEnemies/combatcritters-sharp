@@ -12,7 +12,8 @@ namespace CombatCrittersSharp.rest.payloads
         string image,
         string type,
         JsonElement type_specific, //This is either a CardCritterPayload or CardItemPayload
-        string description)
+        string description
+        )
     {
         public const string TypeCritter = "critter";
         public const string TypeItem = "item";
@@ -27,7 +28,7 @@ namespace CombatCrittersSharp.rest.payloads
                     {
                         throw new JsonException("Invalid Card Payload");
                     }
-                    
+
                     return new CardCritter(cardid, name, playcost, (Rarity)rarity, image, description, critter.damage,
                         critter.health, critter.abilities);
                 case TypeItem:
@@ -36,7 +37,7 @@ namespace CombatCrittersSharp.rest.payloads
                     {
                         throw new JsonException("Invalid Card Payload");
                     }
-                    return new CardItem(cardid,name,playcost,(Rarity)rarity,image,type,item.abilityid);
+                    return new CardItem(cardid, name, playcost, (Rarity)rarity, image, type, item.abilityid);
                 default:
                     throw new Exception("Unknown card type");
             }
