@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using CombatCrittersSharp.exception;
+using CombatCrittersSharp.managers;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest;
 using CombatCrittersSharp.rest.payloads;
@@ -7,11 +8,17 @@ using CombatCrittersSharp.rest.routes;
 
 namespace CombatCrittersSharp;
 
-public class Client(string apiUri) : IClient
+public class Client : IClient
 {
-    public IRest Rest { get; } = new Rest(apiUri);
+    public IRest Rest { get; }
     public IUser? User { get; private set; }
+    public UserManager? Users { get; private set; }
 
+    //constructor
+    public Client(string apiUri)
+    {
+        Rest = new Rest(apiUri);
+    }
 
     public async Task Login(string username, string password)
     {
@@ -23,6 +30,9 @@ public class Client(string apiUri) : IClient
                 throw new Exception("200 success but no payload was provided... how? something is bronk");// If this happens the api is being silly
             }
             this.User = objects.user.User.From(this, payload);
+
+            //Initialize UserManager once User is set
+            this.Users = new UserManager(this, this.User);
         }
         catch (RestException e)
         {
@@ -35,13 +45,13 @@ public class Client(string apiUri) : IClient
     {
         try
         {
-            await Rest.Post(AuthRoutes.Register(),new RegisterPayload(username,password));
+            await Rest.Post(AuthRoutes.Register(), new RegisterPayload(username, password));
         }
         catch (RestException e)
-        { 
+        {
             throw new AuthException("Failed to register user", e);
         }
-        
+
         Console.WriteLine($"register new user: {username}");
     }
 }

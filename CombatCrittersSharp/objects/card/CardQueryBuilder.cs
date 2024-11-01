@@ -12,7 +12,7 @@ namespace CombatCrittersSharp.objects.card
         private bool _owned;
         private List<Rarity> _rarities;
         private bool _raritiesInclude;
-        
+
 
         //constructor
         public CardQueryBuilder()
