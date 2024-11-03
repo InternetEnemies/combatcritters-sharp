@@ -9,7 +9,14 @@ namespace CombatCrittersSharp.objects.pack
         string Name { get; }
         int PackId { get; }
 
-        List<ICard>? Contents { get; } // nullable to indicate it may not be initially loaded
+        List<ICard>? Contents { get; set; }
+
+
+        /// <summary>
+        /// Retrievs the list of cards in this pack.
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ICard>> GetPackContentsAsync();
 
         /// <summary>
         /// Sets the content of the pack, allowing PackManager to populate the contents

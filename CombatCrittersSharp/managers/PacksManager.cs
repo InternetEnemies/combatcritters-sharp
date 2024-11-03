@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using CombatCrittersSharp.exception;
 using CombatCrittersSharp.managers.interfaces;
@@ -33,15 +34,15 @@ namespace CombatCrittersSharp.managers
                 var response = await _client.Rest.Get(PackRoutes.Packs());
 
                 //Deserialize to PackDetailsPayload
-                PackDetailsPayload[]? payload = await response.Content.ReadFromJsonAsync<PackDetailsPayload[]>();
+                PackPayload[]? payload = await response.Content.ReadFromJsonAsync<PackPayload[]>();
 
                 var packs = new List<Pack>();
 
                 if (payload != null)
                 {
-                    foreach (PackDetailsPayload pack in payload)
+                    foreach (PackPayload pack in payload)
                     {
-                        packs.Add(Pack.FromPackDetailsPayload(pack, _client.Rest));
+                        packs.Add(Pack.FromPackPayload(pack, _client.Rest));
 
                     }
                 }
@@ -51,41 +52,6 @@ namespace CombatCrittersSharp.managers
             catch (RestException e)
             {
                 throw new AuthException("Failed to get Packs", e);
-            }
-
-
-        }
-
-        /// <summary>
-        /// Retrieves the content cards by a specific packID
-        /// </summary>
-        /// <param name="packId">The ID of the pack</param>
-        /// <returns></returns>
-        /// <exception cref="AuthException"></exception>
-        public async Task<List<ICard>> GetPackContentsAsync(int packId)
-        {
-            try
-            {
-                var response = await _client.Rest.Get(PackRoutes.PackCards(packId));
-
-                //Desetialize the response into a list of cards
-                CardPayload[]? payload = await response.Content.ReadFromJsonAsync<CardPayload[]>();
-
-                var cards = new List<ICard>();
-
-                if (payload != null)
-                {
-                    foreach (var cardPayload in payload)
-                    {
-                        cards.Add(cardPayload.ToCard());
-                    }
-                }
-
-                return cards;
-            }
-            catch (RestException e)
-            {
-                throw new AuthException("Failed to retrieve pack content by id", e);
             }
         }
 
@@ -103,18 +69,22 @@ namespace CombatCrittersSharp.managers
 
 
                 //Deserialize the response to a PackDetailsPayload
-                PackDetailsPayload? payload = await response.Content.ReadFromJsonAsync<PackDetailsPayload>();
+                PackPayload? payload = await response.Content.ReadFromJsonAsync<PackPayload>();
 
                 if (payload == null)
                 {
                     throw new RestException("Pack details not found for the given ID", response.StatusCode, response);
                 }
 
-                return Pack.FromPackDetailsPayload(payload, _client.Rest);
+                return Pack.FromPackPayload(payload, _client.Rest);
             }
-            catch (RestException e)
+            catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
             {
-                throw new AuthException("Failed to get pack by ID", e);
+                throw new AuthException("Access denied, Failed to get decks", e);
+            }
+            catch (RestException)
+            {
+                throw;
             }
         }
 
@@ -133,7 +103,7 @@ namespace CombatCrittersSharp.managers
                     foreach (var UserPackPayload in payload)
                     {
                         //Create a pack instance from the pack details in UserPackPayload
-                        var pack = Pack.FromPackDetailsPayload(UserPackPayload.Item, _client.Rest);
+                        var pack = Pack.FromPackPayload(UserPackPayload.Item, _client.Rest);
 
                         //Add the pack and count to the 
                         userPacks.Add(new UserPack(pack, UserPackPayload.Count));
@@ -141,9 +111,13 @@ namespace CombatCrittersSharp.managers
                 }
                 return userPacks;
             }
-            catch (RestException e)
+            catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
             {
-                throw new AuthException("Failed to user packs", e);
+                throw new AuthException("Access denied, Failed to get decks", e);
+            }
+            catch (RestException)
+            {
+                throw;
             }
         }
 

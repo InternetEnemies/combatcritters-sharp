@@ -8,17 +8,11 @@ using CombatCrittersSharp.rest.routes;
 
 namespace CombatCrittersSharp;
 
-public class Client : IClient
+public class Client(string apiUri) : IClient
 {
-    public IRest Rest { get; }
+    public IRest Rest { get; } = new Rest(apiUri);
     public IUser? User { get; private set; }
     public UserManager? Users { get; private set; }
-
-    //constructor
-    public Client(string apiUri)
-    {
-        Rest = new Rest(apiUri);
-    }
 
     public async Task Login(string username, string password)
     {

@@ -1,6 +1,8 @@
+using System.Net.Http.Json;
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.rest;
 using CombatCrittersSharp.rest.payloads;
+using CombatCrittersSharp.rest.routes;
 
 namespace CombatCrittersSharp.objects.pack
 {
@@ -10,7 +12,7 @@ namespace CombatCrittersSharp.objects.pack
         public string Name { get; private set; }
         public int PackId { get; private set; }
 
-        public List<ICard>? Contents { get; private set; } // Content is only set through SetContents
+        public List<ICard>? Contents { get; set; }
         private readonly IRest _rest;
 
 
@@ -25,9 +27,9 @@ namespace CombatCrittersSharp.objects.pack
         }
 
         //Static methos for instantiation from payloads
-        public static Pack FromPackDetailsPayload(PackDetailsPayload payload, IRest rest)
+        public static Pack FromPackPayload(PackPayload payload, IRest rest)
         {
-            return new Pack(payload.Image, payload.Name, payload.Packid, rest);
+            return new Pack(payload.image, payload.name, payload.packid, rest);
         }
 
         /// <summary>
@@ -37,6 +39,31 @@ namespace CombatCrittersSharp.objects.pack
         public void SetContents(List<ICard> contents)
         {
             Contents = contents;
+        }
+
+        /// <summary>
+        /// Retrieves pack content.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ICard>> GetPackContentsAsync()
+        {
+            var response = await _rest.Get(PackRoutes.PackCards(PackId));
+
+            PackContentsPayload? contentsPayload = await response.Content.ReadFromJsonAsync<PackContentsPayload>();
+
+            var cards = new List<ICard>();
+
+            if (contentsPayload?.cards != null)
+            {
+                foreach (var cardPayload in contentsPayload.cards)
+                {
+                    cards.Add(cardPayload.ToCard());
+                }
+            }
+
+            //Set the contents after retrieval
+            Contents = cards;
+            return cards;
         }
     }
 }
