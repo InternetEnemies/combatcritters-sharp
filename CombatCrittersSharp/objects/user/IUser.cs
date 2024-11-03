@@ -13,6 +13,8 @@ public interface IUser
     IDeckManager Decks { get; }
     IUserCardsManager Cards { get; }
     IProfile Profile { get; }
+
+    IPackManager Packs { get; }
     string Username { get; }
     int Id { get; }
 
