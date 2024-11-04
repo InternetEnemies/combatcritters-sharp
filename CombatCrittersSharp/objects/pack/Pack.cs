@@ -49,13 +49,13 @@ namespace CombatCrittersSharp.objects.pack
         {
             var response = await _rest.Get(PackRoutes.PackCards(PackId));
 
-            PackContentsPayload? contentsPayload = await response.Content.ReadFromJsonAsync<PackContentsPayload>();
+            CardPayload[]? contentsPayload = await response.Content.ReadFromJsonAsync<CardPayload[]>();
 
             var cards = new List<ICard>();
 
-            if (contentsPayload?.cards != null)
+            if (contentsPayload != null)
             {
-                foreach (var cardPayload in contentsPayload.cards)
+                foreach (var cardPayload in contentsPayload)
                 {
                     cards.Add(cardPayload.ToCard());
                 }
