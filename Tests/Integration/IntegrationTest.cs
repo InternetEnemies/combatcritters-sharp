@@ -11,7 +11,7 @@ public class IntegrationTest
     private static readonly ushort ApiPort = 4000;
     public static readonly string ApiUrl = $"http://localhost:{ApiPort}/";
     private static readonly string ApiImage = "vanjackal/combatcritters:latest";
-    
+
     private static readonly string DbName = "critter_db";
     private static readonly string DbUser = "critter_db";
     private static readonly string DbPass = "critter_db";
@@ -19,19 +19,19 @@ public class IntegrationTest
     private static readonly int DbPort = 5432;
     private static readonly string Origin = "http://combatcritters.ca";
     private static readonly string OriginDev = "http://localhost:3000";
-    
+
 
     private IContainer _apiContainer;
     private PostgreSqlContainer _postgresContainer;
     private INetwork _network;
-    
+
     [SetUp]
     public virtual async Task Setup()
     { //! this isn't really a great way of doing this but TestContainers for .NET doesn't support compose yet (java does ;-;)
         _network = new NetworkBuilder()
             .Build();
         await _network.CreateAsync();
-        
+
         _postgresContainer = new PostgreSqlBuilder()
             .WithDatabase(DbName)
             .WithUsername(DbUser)
@@ -41,14 +41,14 @@ public class IntegrationTest
             .WithNetworkAliases(DbHost)
             .Build();
         await _postgresContainer.StartAsync();
-        
+
         _apiContainer = new ContainerBuilder()
             .WithImage(ApiImage)
             .WithPortBinding(4000, 8080)
             .DependsOn(_postgresContainer)
-            .WithEnvironment("DB_HOST",$"{DbHost}:{DbPort}")
-            .WithEnvironment("DB_USER",DbUser)
-            .WithEnvironment("DB_PASS",DbPass)
+            .WithEnvironment("DB_HOST", $"{DbHost}:{DbPort}")
+            .WithEnvironment("DB_USER", DbUser)
+            .WithEnvironment("DB_PASS", DbPass)
             .WithEnvironment("ORIGIN", Origin)
             .WithEnvironment("ORIGIN_DEV", OriginDev)
             .WithNetwork(_network)
