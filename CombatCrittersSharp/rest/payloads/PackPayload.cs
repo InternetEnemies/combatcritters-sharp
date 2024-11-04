@@ -11,7 +11,6 @@ public record PackContentsPayload(
     CardPayload[] cards
 );
 
-
 public record PackCardSlotItem(
     int rarity, // rarity id
     int weight // weights for each rarity will be summed, 
