@@ -121,8 +121,46 @@ namespace CombatCrittersSharp.managers
             }
         }
 
+        public async Task<Pack> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage)
+        {
+            try
+            {
+                //Convert the rarity probabilities dictionaly int PackCardSlotItems
+                var rarityWeightItems = rarityProbabilities
+                    .Select(rp => new PackCardSlotItem(rarity: rp.Key, weight: rp.Value))
+                    .ToArray();
 
+                //Prepare the payload with slot weights and card contents
+                var payload = new PackCreatorPayload(
+                    slot: new PackCardSlotPayload(rarityWeights: rarityWeightItems),
+                    contents: cardIds.ToArray(),
+                    pack_details: new PackPayload(name: packName, image: packImage, packid: -1)
+                );
 
+                return await CreatePackOnServerAsync(payload);
+            }
+            catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
+            {
+                throw new AuthException("Access denied, Failed to get decks", e);
+            }
+            catch (RestException)
+            {
+                throw;
+            }
+        }
+
+        //Helper method to send the creation request to the server
+        private async Task<Pack> CreatePackOnServerAsync(PackCreatorPayload payload)
+        {
+            var response = await _client.Rest.Post(PackRoutes.Packs(), payload);
+            var createdPack = await response.Content.ReadFromJsonAsync<Pack>();
+
+            if (createdPack == null)
+            {
+                throw new Exception("Pack creation failed.");
+            }
+            return createdPack;
+        }
 
     }
 }
