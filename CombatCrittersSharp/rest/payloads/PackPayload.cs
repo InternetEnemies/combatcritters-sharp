@@ -23,7 +23,7 @@ public record PackCardSlotPayload(
 );
 
 public record PackCreatorPayload(
-    PackCardSlotPayload slot,
+    PackCardSlotPayload[] slots,
     int[] contents,
     PackPayload pack_details
 );

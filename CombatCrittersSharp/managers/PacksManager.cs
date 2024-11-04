@@ -132,7 +132,7 @@ namespace CombatCrittersSharp.managers
 
                 //Prepare the payload with slot weights and card contents
                 var payload = new PackCreatorPayload(
-                    slot: new PackCardSlotPayload(rarityWeights: rarityWeightItems),
+                    slots: new PackCardSlotPayload[] { new PackCardSlotPayload(rarityWeights: rarityWeightItems) },
                     contents: cardIds.ToArray(),
                     pack_details: new PackPayload(name: packName, image: packImage, packid: -1)
                 );
@@ -153,13 +153,13 @@ namespace CombatCrittersSharp.managers
         private async Task<Pack> CreatePackOnServerAsync(PackCreatorPayload payload)
         {
             var response = await _client.Rest.Post(PackRoutes.Packs(), payload);
-            var createdPack = await response.Content.ReadFromJsonAsync<Pack>();
+            var createdPack = await response.Content.ReadFromJsonAsync<PackPayload>();
 
             if (createdPack == null)
             {
                 throw new Exception("Pack creation failed.");
             }
-            return createdPack;
+            return Pack.FromPackPayload(createdPack, _client.Rest); //conver payload to pack and return
         }
 
     }
