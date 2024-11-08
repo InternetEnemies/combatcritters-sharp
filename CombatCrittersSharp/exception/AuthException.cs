@@ -5,4 +5,6 @@ namespace CombatCrittersSharp.exception;
 /// </summary>
 /// <param name="message"></param>
 /// <param name="inner"></param>
-public class AuthException(string message, Exception inner) : Exception(message, inner);
+public class AuthException(string message, Exception innerException) : CombatCrittersException(message, innerException)
+{
+}
