@@ -147,11 +147,13 @@ namespace CombatCrittersSharp.managers
             }
             catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
             {
-                throw new AuthException("Access denied, Failed to get decks", e);
+                throw new AuthException("Access denied. Failed to create pack due to insufficient permissions.", e);
             }
-            catch (RestException)
+            catch (RestException e)
             {
-                throw;
+                // Rethrow RestException with detailed message
+                throw new RestException($"Failed to create pack. Server returned {e.StatusCode}: {e.ResponseContent}",
+                                        e.StatusCode, e.ResponseMessage);
             }
         }
 
