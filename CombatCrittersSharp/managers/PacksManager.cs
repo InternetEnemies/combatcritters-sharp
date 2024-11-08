@@ -175,11 +175,7 @@ namespace CombatCrittersSharp.managers
                 if (string.IsNullOrWhiteSpace(packImage))
                     throw new ArgumentException("Pack image cannot be null or whitespace.", nameof(packImage));
 
-                if (slotCount < 3 || slotCount > 5)
-                    throw new ArgumentOutOfRangeException(nameof(slotCount), "Slot count must be between 3 and 5.");
-
-                //Ensure slot count does not exceed 5
-                slotCount = Math.Min(slotCount, 5);
+                slotCount = 5;
 
                 //Convert the rarity probabilities dictionaly int PackCardSlotItems
                 var rarityWeightItems = rarityProbabilities
@@ -191,7 +187,7 @@ namespace CombatCrittersSharp.managers
                 //Prepare the payload with slot weights and card contents
                 var payload = new PackCreatorPayload(
                     slots: slots,
-                    contents: cardIds.Take(slotCount).ToArray(), //Ensure card count matches slot (Basic Pack: 3, Advanced: 4, Premium: 5)
+                    contents: cardIds.Take(10).ToArray(), //Ensure card count matches slot (Basic Pack: 3, Advanced: 4, Premium: 5)
                     pack_details: new PackPayload(name: packName, image: packImage, packid: -1)
                 );
 
@@ -221,7 +217,7 @@ namespace CombatCrittersSharp.managers
         //Helper method to send the creation request to the server
         private async Task<Pack> CreatePackOnServerAsync(PackCreatorPayload payload)
         {
-            var response = await _client.Rest.Post(PackRoutes.Packs(), payload);
+            var response = await _client.Rest.Post(PackRoutes.PacksCreate(), payload);
             var createdPack = await response.Content.ReadFromJsonAsync<PackPayload>();
 
             if (createdPack == null)

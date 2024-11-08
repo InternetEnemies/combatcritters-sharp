@@ -13,6 +13,11 @@ public static class PackRoutes
         return "/packs";
     }
 
+    public static string PacksCreate()
+    {
+        return "/admin/packs";
+    }
+
     /// <summary>
     /// - GET
     /// </summary>
