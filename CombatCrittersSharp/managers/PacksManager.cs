@@ -49,9 +49,23 @@ namespace CombatCrittersSharp.managers
 
                 return packs;
             }
+            catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
+            {
+                // Handle forbidden access specifically
+                GeneralExceptionHandler.HandleException(e, "Access denied. Failed to retrieve packs in PacksManager.");
+                return new List<Pack>(); // Return empty list to indicate restricted access
+            }
             catch (RestException e)
             {
-                throw new AuthException("Failed to get Packs", e);
+                // Log other REST-related errors and return an empty list
+                GeneralExceptionHandler.HandleException(e, "REST error while retrieving all packs in PacksManager.");
+                return new List<Pack>();
+            }
+            catch (Exception ex)
+            {
+                // Log any unexpected errors and return an empty list
+                GeneralExceptionHandler.HandleException(ex, "Unexpected error while retrieving all packs in PacksManager.");
+                return new List<Pack>();
             }
         }
 
@@ -61,7 +75,7 @@ namespace CombatCrittersSharp.managers
         /// <param name="packId">The ID of the pack to retrieve</param>
         /// <returns></returns>
         /// <exception cref="AuthException"></exception>
-        public async Task<Pack> GetPackByIdAsync(int packId)
+        public async Task<Pack?> GetPackByIdAsync(int packId)
         {
             try
             {
@@ -73,18 +87,32 @@ namespace CombatCrittersSharp.managers
 
                 if (payload == null)
                 {
-                    throw new RestException("Pack details not found for the given ID", response.StatusCode, response);
+                    GeneralExceptionHandler.HandleException(
+                        new RestException("Pack details not found for the given ID", response.StatusCode, response),
+                        "Pack payload was null after deserialization."
+                    );
+                    return null; // Return null to indicate the pack was not found
                 }
 
                 return Pack.FromPackPayload(payload, _client.Rest);
             }
             catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
             {
-                throw new AuthException("Access denied, Failed to get decks", e);
+                // Log the forbidden access and return null
+                GeneralExceptionHandler.HandleException(e, "Access denied. Failed to retrieve pack by ID in PacksManager.");
+                return null;
             }
-            catch (RestException)
+            catch (RestException e)
             {
-                throw;
+                // Log any other REST errors and return null
+                GeneralExceptionHandler.HandleException(e, "REST error while retrieving pack by ID in PacksManager.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Log unexpected errors and return null
+                GeneralExceptionHandler.HandleException(ex, "Unexpected error while retrieving pack by ID in PacksManager.");
+                return null;
             }
         }
 
@@ -113,19 +141,43 @@ namespace CombatCrittersSharp.managers
             }
             catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
             {
-                throw new AuthException("Access denied, Failed to get decks", e);
+                // Log the forbidden access and return null
+                GeneralExceptionHandler.HandleException(e, "Access denied. Failed to retrieve pack by ID in PacksManager.");
+                return new List<UserPack>();
             }
-            catch (RestException)
+            catch (RestException e)
             {
-                throw;
+                GeneralExceptionHandler.HandleException(e, "Failed to retrieve user packs in PacksManager.");
+                return new List<UserPack>();
+            }
+            catch (Exception ex)
+            {
+                GeneralExceptionHandler.HandleException(ex, "Unexpected error while retrieving user packs in PacksManager.");
+                return new List<UserPack>();
             }
         }
 
         //Fixed Limit of 5 slots. It will only vary depending on the pack type (Basic Pack: 3, Advanced Pack: 4, Premium Pack: 5)
-        public async Task<Pack> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount)
+        public async Task<Pack?> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount)
         {
             try
             {
+                //Input validation 
+                if (cardIds == null || cardIds.Count == 0)
+                    throw new ArgumentException("Card IDs cannot be null or empty.", nameof(cardIds));
+
+                if (rarityProbabilities == null || rarityProbabilities.Count == 0)
+                    throw new ArgumentException("Rarity probabilities cannot be null or empty.", nameof(rarityProbabilities));
+
+                if (string.IsNullOrWhiteSpace(packName))
+                    throw new ArgumentException("Pack name cannot be null or whitespace.", nameof(packName));
+
+                if (string.IsNullOrWhiteSpace(packImage))
+                    throw new ArgumentException("Pack image cannot be null or whitespace.", nameof(packImage));
+
+                if (slotCount < 3 || slotCount > 5)
+                    throw new ArgumentOutOfRangeException(nameof(slotCount), "Slot count must be between 3 and 5.");
+
                 //Ensure slot count does not exceed 5
                 slotCount = Math.Min(slotCount, 5);
 
@@ -145,15 +197,24 @@ namespace CombatCrittersSharp.managers
 
                 return await CreatePackOnServerAsync(payload);
             }
+            catch (ArgumentException ex)
+            {
+                GeneralExceptionHandler.HandleException(ex, "Invalid argument provided while creating pack in PacksManager.");
+                return null;
+            }
             catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
             {
-                throw new AuthException("Access denied. Failed to create pack due to insufficient permissions.", e);
+                throw new AuthException("Access denied. Failed to create pack.", e);
             }
             catch (RestException e)
             {
-                // Rethrow RestException with detailed message
-                throw new RestException($"Failed to create pack. Server returned {e.StatusCode}: {e.ResponseContent}",
-                                        e.StatusCode, e.ResponseMessage);
+                GeneralExceptionHandler.HandleException(e, "REST error while creating pack in PacksManager.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                GeneralExceptionHandler.HandleException(ex, "Unexpected error while creating pack in PacksManager.");
+                return null;
             }
         }
 

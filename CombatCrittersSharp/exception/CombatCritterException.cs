@@ -1,9 +1,12 @@
 namespace CombatCrittersSharp.exception
 {
-    public class CombatCrittersException : Exception
+    public class CombatCrittersException(string message, string? detailedMessage = null, Exception? innerException = null) : Exception(message, innerException)
     {
-        public CombatCrittersException(string message) : base(message) { }
+        public string? DetailedMessage { get; } = detailedMessage;
 
-        public CombatCrittersException(string message, Exception innerException) : base(message, innerException) { }
+        public override string ToString()
+        {
+            return $"{base.ToString()}\nDetailed Info: {DetailedMessage ?? "No additional details provided."}";
+        }
     }
 }

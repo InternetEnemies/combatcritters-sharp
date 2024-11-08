@@ -18,19 +18,19 @@ public class Rest : IRest
     public async Task<HttpResponseMessage> Put(string endpoint, object body)
     {
         var res = await this._httpClient.PutAsync(endpoint, ObjectToContent(body));
-        await CheckResponse(res);
+        await CheckResponse(res).ConfigureAwait(false);
         return res;
     }
     public async Task<HttpResponseMessage> Patch(string endpoint, object body)
     {
         var res = await this._httpClient.PatchAsync(endpoint, ObjectToContent(body));
-        await CheckResponse(res);
+        await CheckResponse(res).ConfigureAwait(false);
         return res;
     }
     public async Task<HttpResponseMessage> Post(string endpoint, object body)
     {
         var res = await this._httpClient.PostAsync(endpoint, ObjectToContent(body));
-        await CheckResponse(res);
+        await CheckResponse(res).ConfigureAwait(false);
         return res;
     }
 
@@ -38,14 +38,14 @@ public class Rest : IRest
     {
 
         var res = await this._httpClient.GetAsync(endpoint);
-        await CheckResponse(res);
+        await CheckResponse(res).ConfigureAwait(false);
         return res;
     }
     public async Task<HttpResponseMessage> Delete(string endpoint)
     {
 
         var res = await this._httpClient.DeleteAsync(endpoint);
-        await CheckResponse(res);
+        await CheckResponse(res).ConfigureAwait(false);
         return res;
     }
 
