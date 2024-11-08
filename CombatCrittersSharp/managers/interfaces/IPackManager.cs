@@ -25,5 +25,16 @@ namespace CombatCrittersSharp.managers.interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<List<UserPack>> GetUserPacksAsync(int userId);
+
+        /// <summary>
+        /// Create a pack and return it.
+        /// </summary>
+        /// <param name="cardIds"></param>
+        /// <param name="rarityProbabilities"></param>
+        /// <param name="packName"></param>
+        /// <param name="packImage"></param>
+        /// <param name="slotCount"></param>
+        /// <returns>Returns the created pack</returns>
+        Task<Pack> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount);
     }
 }
