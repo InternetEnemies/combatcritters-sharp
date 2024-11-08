@@ -18,19 +18,19 @@ public class Rest : IRest
     public async Task<HttpResponseMessage> Put(string endpoint, object body)
     {
         var res = await this._httpClient.PutAsync(endpoint, ObjectToContent(body));
-        CheckResponse(res);
+        await CheckResponse(res);
         return res;
     }
     public async Task<HttpResponseMessage> Patch(string endpoint, object body)
     {
         var res = await this._httpClient.PatchAsync(endpoint, ObjectToContent(body));
-        CheckResponse(res);
+        await CheckResponse(res);
         return res;
     }
     public async Task<HttpResponseMessage> Post(string endpoint, object body)
     {
         var res = await this._httpClient.PostAsync(endpoint, ObjectToContent(body));
-        CheckResponse(res);
+        await CheckResponse(res);
         return res;
     }
 
@@ -38,14 +38,14 @@ public class Rest : IRest
     {
 
         var res = await this._httpClient.GetAsync(endpoint);
-        CheckResponse(res);
+        await CheckResponse(res);
         return res;
     }
     public async Task<HttpResponseMessage> Delete(string endpoint)
     {
 
         var res = await this._httpClient.DeleteAsync(endpoint);
-        CheckResponse(res);
+        await CheckResponse(res);
         return res;
     }
 
@@ -54,11 +54,13 @@ public class Rest : IRest
         return new StringContent(JsonSerializer.Serialize(obj), Encoding.UTF8, "application/json");
     }
 
-    private static void CheckResponse(HttpResponseMessage response)
+    private static async Task CheckResponse(HttpResponseMessage response)
     {
         if (!response.IsSuccessStatusCode)
         {
-            throw new RestException("Request failed with status code " + response.StatusCode, response.StatusCode, response);
+            var content = await response.Content.ReadAsStringAsync();
+            throw new RestException($"Request failed with status code {response.StatusCode} and content: {content}",
+                                response.StatusCode, response);
         };
     }
 }

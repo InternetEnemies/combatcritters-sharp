@@ -8,9 +8,22 @@ namespace CombatCrittersSharp.exception;
 /// <param name="message"></param>
 /// <param name="statusCode"></param>
 /// <param name="response"></param>
-public class RestException(string message, HttpStatusCode statusCode, HttpResponseMessage response)
-    : Exception(message)
+public class RestException : Exception
 {
-    public HttpStatusCode StatusCode { get; } = statusCode;
-    public HttpResponseMessage ResponseMessage { get; } = response;
+    public HttpStatusCode StatusCode { get; }
+    public string ResponseContent { get; }
+    public HttpResponseMessage ResponseMessage { get; }
+
+    public RestException(string message, HttpStatusCode statusCode, HttpResponseMessage response)
+        : base(message)
+    {
+        StatusCode = statusCode;
+        ResponseMessage = response;
+        ResponseContent = response.Content.ReadAsStringAsync().Result; //Ensure the full content is captured for logging
+    }
+
+    public override string ToString()
+    {
+        return $"{base.ToString()}, Status Code: {StatusCode}, Response Content: {ResponseContent}";
+    }
 }
