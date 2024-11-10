@@ -2,7 +2,6 @@ using System.Net;
 using System.Net.Http.Json;
 using CombatCrittersSharp.exception;
 using CombatCrittersSharp.managers.interfaces;
-using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.pack;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.objects.userpack;
@@ -21,11 +20,6 @@ namespace CombatCrittersSharp.managers
             _client = client;
             _user = user;
         }
-
-        /// <summary>
-        /// Reteives all packs in the game
-        /// </summary>
-        /// <returns></returns>
 
         public async Task<List<Pack>> GetAllPacksAsync()
         {
@@ -69,19 +63,11 @@ namespace CombatCrittersSharp.managers
             }
         }
 
-        /// <summary>
-        /// Retrieves a pack by its ID
-        /// </summary>
-        /// <param name="packId">The ID of the pack to retrieve</param>
-        /// <returns></returns>
-        /// <exception cref="AuthException"></exception>
         public async Task<Pack?> GetPackByIdAsync(int packId)
         {
             try
             {
                 var response = await _client.Rest.Get(PackRoutes.Pack(packId));
-
-
                 //Deserialize the response to a PackDetailsPayload
                 PackPayload? payload = await response.Content.ReadFromJsonAsync<PackPayload>();
 
@@ -157,7 +143,6 @@ namespace CombatCrittersSharp.managers
             }
         }
 
-        //Fixed Limit of 5 slots. It will only vary depending on the pack type (Basic Pack: 3, Advanced Pack: 4, Premium Pack: 5)
         public async Task<Pack?> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount)
         {
             try

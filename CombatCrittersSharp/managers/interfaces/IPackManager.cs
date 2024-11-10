@@ -17,7 +17,7 @@ namespace CombatCrittersSharp.managers.interfaces
         /// </summary>
         /// <param name="packId"></param>
         /// <returns></returns>
-        Task<Pack> GetPackByIdAsync(int packId);
+        Task<Pack?> GetPackByIdAsync(int packId);
 
         /// <summary>
         /// Retrieves the packs in the user's inventory
@@ -27,14 +27,15 @@ namespace CombatCrittersSharp.managers.interfaces
         Task<List<UserPack>> GetUserPacksAsync(int userId);
 
         /// <summary>
-        /// Create a pack and return it.
+        /// Create a new Pack
         /// </summary>
         /// <param name="cardIds"></param>
-        /// <param name="rarityProbabilities"></param>
-        /// <param name="packName"></param>
-        /// <param name="packImage"></param>
-        /// <param name="slotCount"></param>
-        /// <returns>Returns the created pack</returns>
-        Task<Pack> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount);
+        /// <param name="rarityProbabilities">the likelyhood of obtaining cards of different rarity levels within each pack type.</param>
+        /// <param name="packName">Pack Name</param>
+        /// <param name="packImage">Pack Image</param>
+        /// <param name="slotCount">The number of card slots in each pack, dictating how many cards a user will receive when opening a pack</param>
+        /// <returns>Return created Pack</returns>
+        /// <exception cref="AuthException"></exception>
+        Task<Pack?> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount);
     }
 }
