@@ -1,5 +1,20 @@
 namespace CombatCrittersSharp.rest.payloads;
 
+//The VendorPayload and the Vendor reputation payload will be 
+public record VendorPayload(
+    int id,
+    string name,
+    string image,
+    VendorReputationPayload reputation,
+    string refresh_time
+);
+public record VendorReputationPayload(
+    int level,
+    int current_xp,
+    int next_level_xp,
+    int prev_level_xp
+);
+
 public record OfferPayload(
     int id,
     OfferItemPayload[] give,
@@ -12,14 +27,6 @@ public record OfferItemPayload(
     int item_id
 );
 
-public record VendorPayload(
-    int id,
-    string name,
-    string image,
-    VendorReputationPayload reputataion,
-    string refresh_time
-);
-
 public record OfferDiscountPayload(
     int discount,
     int discountid,
@@ -27,12 +34,7 @@ public record OfferDiscountPayload(
     OfferItemPayload[] give
 );
 
-public record VendorReputationPayload(
-    int level,
-    int current_xp,
-    int next_level_xp,
-    int prev_level_xp
-);
+
 
 public record OfferDiscountCreatePayload(
     int offerid,
