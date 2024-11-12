@@ -1,4 +1,4 @@
-namespace CombatCrittersSharp.objects.vendor
+namespace CombatCrittersSharp.objects.MarketPlace.Interfaces
 {
     public interface IVendorReputation
     {

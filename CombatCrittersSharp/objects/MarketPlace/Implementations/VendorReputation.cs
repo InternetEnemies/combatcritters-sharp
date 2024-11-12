@@ -1,6 +1,7 @@
+using CombatCrittersSharp.objects.MarketPlace.Interfaces;
 using CombatCrittersSharp.rest.payloads;
 
-namespace CombatCrittersSharp.objects.vendor
+namespace CombatCrittersSharp.objects.MarketPlace.Implementations
 {
     public class VendorReputation : IVendorReputation
     {
