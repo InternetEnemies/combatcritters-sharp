@@ -1,4 +1,5 @@
 using CombatCrittersSharp.managers;
+using CombatCrittersSharp.managers.Implementation;
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects.deck;
 using CombatCrittersSharp.objects.profile;
@@ -20,9 +21,11 @@ public class User
     public IDeckManager Decks { get; }
     public IUserCardsManager Cards { get; }
     public IProfile Profile { get; }
-
     public IPackManager Packs { get; }
+
+    public IMarketPlaceManager MarketPlace { get; }
     public string Username { get; }
+
     public int Id { get; }
 
     //Property to hold user's featured deck
@@ -38,6 +41,7 @@ public class User
         this.Cards = new UserCardsManager(client, this);
         this.Profile = new Profile(client, this);
         this.Packs = new PacksManager(client, this);
+        this.MarketPlace = new MarketPlaceManager(client, this);
     }
 
 

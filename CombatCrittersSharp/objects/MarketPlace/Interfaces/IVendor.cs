@@ -8,5 +8,6 @@ namespace CombatCrittersSharp.objects.MarketPlace.Interfaces
         string RefreshTime { get; }
 
         IVendorReputation Reputation { get; }
+
     }
 }

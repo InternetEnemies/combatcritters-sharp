@@ -10,6 +10,7 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
         public string Image { get; private set; }
         public string RefreshTime { get; private set; }
 
+
         public IVendorReputation Reputation { get; private set; }
 
         public Vendor(VendorPayload payload)
@@ -20,5 +21,7 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
             RefreshTime = payload.refresh_time;
             Reputation = new VendorReputation(payload.reputation);
         }
+
+
     }
 }

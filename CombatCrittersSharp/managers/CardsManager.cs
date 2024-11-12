@@ -5,7 +5,7 @@ namespace CombatCrittersSharp.managers;
 /// <summary>
 /// manage cards routes
 /// </summary>
-public class CardsManager: ICardsManager
+public class CardsManager : ICardsManager
 {
-    
+
 }
