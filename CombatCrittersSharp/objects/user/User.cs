@@ -22,7 +22,6 @@ public class User
     public IUserCardsManager Cards { get; }
     public IProfile Profile { get; }
     public IPackManager Packs { get; }
-
     public IMarketPlaceManager MarketPlace { get; }
     public string Username { get; }
 

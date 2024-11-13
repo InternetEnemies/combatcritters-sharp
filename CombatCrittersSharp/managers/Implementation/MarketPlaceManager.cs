@@ -59,5 +59,48 @@ namespace CombatCrittersSharp.managers.Implementation
                 return new List<Vendor>();
             }
         }
+
+
+        public async Task<Offer?> GetVendorOfferAsync(int id)
+        {
+            try
+            {
+                //Send request to get vendor offers by id
+                var response = await _client.Rest.Get(MarketRoutes.VendorOffers(id));
+
+                //Deserialize response
+                OfferPayload? payload = await response.Content.ReadFromJsonAsync<OfferPayload>();
+
+                if (payload != null)
+                {
+                    return new Offer(payload); //return the vendor offer
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
+            {
+                // Handle forbidden access specifically
+                GeneralExceptionHandler.HandleException(e, "Access denied. Failed to offers from MarketManager");
+                return null;
+            }
+            catch (RestException e)
+            {
+                // Log other REST-related errors and return an empty list
+                GeneralExceptionHandler.HandleException(e, "REST error while retrieving vendor offer");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // Log any unexpected errors and return an empty list
+                GeneralExceptionHandler.HandleException(ex, "Unexpected error while retrieving vendor offer");
+                return null;
+            }
+
+
+        }
+
     }
 }

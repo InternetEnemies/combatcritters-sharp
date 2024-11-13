@@ -10,5 +10,12 @@ namespace CombatCrittersSharp.managers.interfaces
         /// <returns></returns>
         Task<List<Vendor>> GetVendorsAsync();
 
+        /// <summary>
+        /// Retries a vendor offer
+        /// </summary>
+        /// <param name="id">Vendor id</param>
+        /// <returns>A Vendor offer</returns>
+        Task<Offer?> GetVendorOfferAsync(int id);
+
     }
 }
