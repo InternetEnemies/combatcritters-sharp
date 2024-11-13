@@ -2,8 +2,6 @@
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects.deck;
 using CombatCrittersSharp.objects.profile;
-
-
 namespace CombatCrittersSharp.objects.user;
 
 /// <summary>
