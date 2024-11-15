@@ -9,11 +9,34 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
         public List<IOfferItem> Give { get; set; }
         public IOfferItem Receive { get; set; }
 
+        public Offer(int id, List<OfferItem> give, OfferItem receive)
+        {
+            Id = id;
+            Give = give?.Cast<IOfferItem>().ToList() ?? throw new ArgumentNullException(nameof(give));
+            Receive = receive ?? throw new ArgumentNullException(nameof(receive));
+        }
+
         public Offer(OfferPayload payload)
         {
+            if (payload == null) throw new ArgumentNullException(nameof(payload));
+
             Id = payload.id;
-            Give = payload.give.Select(itemPayload => (IOfferItem)new OfferItem(itemPayload)).ToList();
-            Receive = new OfferItem(payload.receive);
+
+            // Deserialize 'give' items
+            Give = payload.give
+                .Select(itemPayload =>
+                {
+                    var offerItem = new OfferItem(itemPayload);
+                    offerItem.DeserializeItem(); // Parse the item based on type
+                    return offerItem;
+                })
+                .Cast<IOfferItem>()
+                .ToList();
+
+            // Deserialize 'receive' item
+            var receiveItem = new OfferItem(payload.receive);
+            receiveItem.DeserializeItem(); // Parse the item based on type
+            Receive = receiveItem;
         }
     }
 }

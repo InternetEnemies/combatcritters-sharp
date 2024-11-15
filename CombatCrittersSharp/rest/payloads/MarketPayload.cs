@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace CombatCrittersSharp.rest.payloads;
 
 //The VendorPayload and the Vendor reputation payload will be 
@@ -24,7 +26,7 @@ public record OfferPayload(
 public record OfferItemPayload(
     string type,
     int count,
-    int item_id
+    JsonElement item //Store raw item data, will be processed in constructor
 );
 
 public record OfferDiscountPayload(
