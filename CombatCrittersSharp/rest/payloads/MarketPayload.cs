@@ -29,6 +29,25 @@ public record OfferItemPayload(
     JsonElement item //Store raw item data, will be processed in constructor
 );
 
+public record OfferCreatorPayload(
+    int level,
+    OfferCreationItemPayload recv_item,
+    OfferCreationItemPayload send_items
+);
+
+public record OfferCreationItemPayload(
+    int count,
+    int? itemid,
+    OfferItemType type
+);
+
+public enum OfferItemType
+{
+    Card,
+    Pack,
+    Currency
+}
+
 public record OfferDiscountPayload(
     int discount,
     int discountid,

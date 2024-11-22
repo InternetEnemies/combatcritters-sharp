@@ -7,5 +7,7 @@ namespace CombatCrittersSharp.objects.MarketPlace.Interfaces
         string Type { get; set; }
         int Count { get; set; }
         JsonElement Item { get; set; }
+
+        object? ParsedItem { get; }
     }
 }

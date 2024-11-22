@@ -1,4 +1,7 @@
 
+
+using CombatCrittersSharp.objects.pack;
+
 namespace CombatCrittersSharp.rest.payloads;
 
 public record PackPayload(
@@ -6,6 +9,7 @@ public record PackPayload(
     string image, //Pack Image
     int packid //Pack Id
 );
+
 
 public record PackContentsPayload(
     CardPayload[] cards

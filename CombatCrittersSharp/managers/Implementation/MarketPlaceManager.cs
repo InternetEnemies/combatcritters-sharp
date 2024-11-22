@@ -130,5 +130,51 @@ namespace CombatCrittersSharp.managers.Implementation
 
         }
 
+        public async Task<Offer?> CreateOfferAsync(int vendorId)
+        {
+            try
+            {
+                var recvItem = new OfferCreationItemPayload(
+                        count: 5,
+                        itemid: 123, // Nullable, can be null if no item ID is required
+                        type: OfferItemType.Card // Specify the type from the enum
+                    );
+
+                var sendItem = new OfferCreationItemPayload(
+                    count: 3,
+                    itemid: 456,
+                    type: OfferItemType.Pack
+                );
+
+                var offerCreatorPayload = new OfferCreatorPayload(
+                    level: 1, // Specify the level
+                    recv_item: recvItem,
+                    send_items: sendItem
+                );
+
+                //Send POST request with payload
+                var response = await _client.Rest.Post(MarketRoutes.VendorOffers(vendorId), offerCreatorPayload);
+
+                //Response returns an Offer Payload
+                OfferPayload? offerPayload = await response.Content.ReadFromJsonAsync<OfferPayload>();
+
+                if (offerPayload != null)
+                {
+                    // This offer constructor takes in the OfferPayload
+                    var offer = new Offer(offerPayload);
+                    return offer;
+                }
+                else
+                {
+                    //Return null of no new offer was created
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

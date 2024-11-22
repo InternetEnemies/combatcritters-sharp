@@ -1,6 +1,8 @@
 using System.Text.Json;
 using CombatCrittersSharp.objects.card;
+using CombatCrittersSharp.objects.currency;
 using CombatCrittersSharp.objects.MarketPlace.Interfaces;
+using CombatCrittersSharp.objects.pack;
 using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.MarketPlace.Implementations
@@ -27,15 +29,22 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
                 switch (Type)
                 {
                     case "currency":
+                        //item in this case is null
                         // Use count as coins for currency
-                        ParsedItem = new WalletPayload(Count);
+
+                        WalletPayload walletPayload = new WalletPayload(Count);
+                        ParsedItem = Currency.FromWalletPayload(walletPayload);
+
                         break;
 
                     case "pack":
                         // Deserialize into PackPayload
                         if (Item.ValueKind == JsonValueKind.Object)
                         {
-                            ParsedItem = JsonSerializer.Deserialize<PackPayload>(Item.GetRawText());
+                            var packPayload = JsonSerializer.Deserialize<PackPayload>(Item.GetRawText());
+
+                            if (packPayload != null)
+                                ParsedItem = Pack.FromPackPayload(packPayload, null);
                         }
                         break;
 
@@ -58,6 +67,5 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
                 ParsedItem = null;
             }
         }
-
     }
 }
