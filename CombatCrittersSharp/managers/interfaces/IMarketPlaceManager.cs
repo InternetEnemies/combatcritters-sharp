@@ -20,7 +20,7 @@ namespace CombatCrittersSharp.managers.interfaces
 
         Task<string> GetVendorOfferJsonAsync(int id);
 
-        //Task<Offer?> CreateOfferAsync(int vendorId, int newLevel, List<OfferCreationItemPayload> collectItemsPayload, OfferCreationItemPayload giveItemPayload);
+        Task<Offer?> CreateOfferAsync(int vendorId, int newLevel, List<OfferCreationItem> collectItems, OfferCreationItem receiveItem);
 
     }
 }

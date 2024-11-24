@@ -7,9 +7,9 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
     {
         public int Count { get; set; }
         public int? ItemId { get; set; }
-        public OfferItemType Type { get; set; }
+        public string Type { get; set; }
 
-        public OfferCreationItem(int count, int? itemId, OfferItemType type)
+        public OfferCreationItem(int count, int? itemId, string type)
         {
             Count = count;
             ItemId = itemId;

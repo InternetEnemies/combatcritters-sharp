@@ -6,6 +6,6 @@ namespace CombatCrittersSharp.objects.MarketPlace.Interfaces
     {
         int Count { get; set; }
         int? ItemId { get; set; }
-        OfferItemType Type { get; set; }
+        string Type { get; set; }
     }
 }

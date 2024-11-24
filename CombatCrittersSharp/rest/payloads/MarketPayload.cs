@@ -38,7 +38,7 @@ public record OfferCreatorPayload(
 public record OfferCreationItemPayload(
     int count,
     int? itemid,
-    OfferItemType type
+    string type
 );
 
 public enum OfferItemType

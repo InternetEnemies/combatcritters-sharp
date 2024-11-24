@@ -118,17 +118,53 @@ namespace CombatCrittersSharp.managers.Implementation
 
         }
 
-        // public async Task<Offer?> CreateOfferAsync(int vendorId, int newLevel, List<object> sendItems, object giveItem)
-        // {
-        //     try
-        //     {
-        //         //we have to serialize the sendIt
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return null;
-        //     }
-        // }
+        public async Task<Offer?> CreateOfferAsync(int vendorId, int newLevel, List<OfferCreationItem> collectItems, OfferCreationItem receiveItem)
+        {
 
+            try
+            {
+                // convert items into payloads
+                List<OfferCreationItemPayload> sendItems = new List<OfferCreationItemPayload>();
+
+                foreach (var item in collectItems)
+                {
+                    sendItems.Add(new OfferCreationItemPayload(
+                        count: item.Count,
+                        itemid: item.ItemId,
+                        type: item.Type
+                    ));
+                }
+
+                OfferCreationItemPayload recvItems = new OfferCreationItemPayload(
+                    count: receiveItem.Count,
+                    itemid: receiveItem.ItemId,
+                    type: receiveItem.Type
+                );
+
+                OfferCreatorPayload offerCreatorPayload = new OfferCreatorPayload(
+                    level: newLevel,
+                    recv_item: recvItems,
+                    send_items: sendItems.ToArray()
+                );
+
+
+                var response = await _client.Rest.Post(MarketRoutes.VendorOffers(vendorId), offerCreatorPayload);
+
+                OfferPayload? offerPayload = await response.Content.ReadFromJsonAsync<OfferPayload>();
+
+                Offer? createdOffer = null;
+                if (offerPayload != null)
+                {
+                    createdOffer = Offer.FromOfferPayload(offerPayload);
+                }
+                return createdOffer;
+
+            }
+            catch (RestException e) when (e.StatusCode == HttpStatusCode.Forbidden)
+            {
+                GeneralExceptionHandler.HandleException(e, "Access denied. Failed to offers from MarketManager");
+                return null;
+            }
+        }
     }
 }
