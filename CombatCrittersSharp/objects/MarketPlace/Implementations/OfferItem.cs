@@ -11,61 +11,48 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
     {
         public string Type { get; set; }
         public int Count { get; set; }
-        public JsonElement Item { get; set; }
+        public object Item { get; set; }
 
-        // Parsed item details
-        public object? ParsedItem { get; private set; }
-        public OfferItem(OfferItemPayload payload)
+        public OfferItem(string type, int count, object item)
         {
-            Type = payload.type;
-            Count = payload.count;
-            Item = payload.item;
-        }
+            Type = type;
+            Count = count;
+            Item = item;
 
+            DeserializeItem();
+        }
         public void DeserializeItem()
         {
-            try
+            if (Type == "currency")
             {
-                switch (Type)
+                var walletPayload = new WalletPayload(coins: Count);
+
+                Item = Currency.FromWalletPayload(walletPayload);
+            }
+            else if (Item is JsonElement jsonElement)
+            {
+                Item = Type switch
                 {
-                    case "currency":
-                        //item in this case is null
-                        // Use count as coins for currency
+                    "card" => JsonSerializer.Deserialize<CardPayload>(jsonElement.GetRawText())
+                                 ?.ToCard() ?? throw new JsonException("Invalid CardPayload in OfferItem"),
 
-                        WalletPayload walletPayload = new WalletPayload(Count);
-                        ParsedItem = Currency.FromWalletPayload(walletPayload);
-
-                        break;
-
-                    case "pack":
-                        // Deserialize into PackPayload
-                        if (Item.ValueKind == JsonValueKind.Object)
-                        {
-                            var packPayload = JsonSerializer.Deserialize<PackPayload>(Item.GetRawText());
-
-                            if (packPayload != null)
-                                ParsedItem = Pack.FromPackPayload(packPayload, null);
-                        }
-                        break;
-
-                    case "card":
-                        // Deserialize into CardPayload and convert to Card object
-                        if (Item.ValueKind == JsonValueKind.Object)
-                        {
-                            var cardPayload = JsonSerializer.Deserialize<CardPayload>(Item.GetRawText());
-                            ParsedItem = cardPayload?.ToCard();
-                        }
-                        break;
-
-                    default:
-                        throw new Exception($"Unknown item type: {Type}");
-                }
+                    "pack" => Pack.FromPackPayload(
+                                  JsonSerializer.Deserialize<PackPayload>(jsonElement.GetRawText())
+                                  ?? throw new JsonException("Invalid PackPayload in OfferItem"),
+                                  null
+                              ),
+                    _ => throw new InvalidOperationException($"Unsupported item type: {Type}")
+                };
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error deserializing item of type '{Type}': {ex.Message}");
-                ParsedItem = null;
+                throw new InvalidOperationException($"Unsupported item type or missing payload: {Type}");
             }
+        }
+
+        public static OfferItem FromOfferItemPayload(OfferItemPayload payload)
+        {
+            return new OfferItem(payload.type, payload.count, payload.item);
         }
     }
 }

@@ -9,34 +9,27 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
         public List<IOfferItem> Give { get; set; }
         public IOfferItem Receive { get; set; }
 
-        public Offer(int id, List<OfferItem> give, OfferItem receive)
+        public Offer(int id, List<IOfferItem> give, IOfferItem receive)
         {
             Id = id;
-            Give = give?.Cast<IOfferItem>().ToList() ?? throw new ArgumentNullException(nameof(give));
-            Receive = receive ?? throw new ArgumentNullException(nameof(receive));
+            Give = give;
+            Receive = receive;
         }
 
-        public Offer(OfferPayload payload)
+        /// <summary>
+        /// This returns a new offer from an offer payload
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static Offer FromOfferPayload(OfferPayload payload)
         {
-            if (payload == null) throw new ArgumentNullException(nameof(payload));
+            List<IOfferItem> gives = new List<IOfferItem>();
+            foreach (var item in payload.give)
+            {
+                gives.Add(OfferItem.FromOfferItemPayload(item));
+            }
 
-            Id = payload.id;
-
-            // Deserialize 'give' items
-            Give = payload.give
-                .Select(itemPayload =>
-                {
-                    var offerItem = new OfferItem(itemPayload);
-                    offerItem.DeserializeItem(); // Parse the item based on type
-                    return offerItem;
-                })
-                .Cast<IOfferItem>()
-                .ToList();
-
-            // Deserialize 'receive' item
-            var receiveItem = new OfferItem(payload.receive);
-            receiveItem.DeserializeItem(); // Parse the item based on type
-            Receive = receiveItem;
+            return new Offer(payload.id, gives, OfferItem.FromOfferItemPayload(payload.receive));
         }
     }
 }

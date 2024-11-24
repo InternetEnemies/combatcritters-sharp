@@ -27,7 +27,7 @@ namespace CombatCrittersSharp.objects.pack
         }
 
         //Static methos for instantiation from payloads
-        public static Pack FromPackPayload(PackPayload payload, IRest rest)
+        public static Pack FromPackPayload(PackPayload? payload, IRest? rest)
         {
             return new Pack(payload.image, payload.name, payload.packid, rest);
         }

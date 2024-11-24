@@ -1,12 +1,11 @@
-using System.Text.Json;
 using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.objects.MarketPlace.Interfaces
 {
-    public interface IOfferItem
+    public interface IOfferCreationItem
     {
-        string Type { get; set; }
         int Count { get; set; }
-        object Item { get; set; }
+        int? ItemId { get; set; }
+        OfferItemType Type { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using CombatCrittersSharp.objects.MarketPlace.Implementations;
+using CombatCrittersSharp.rest.payloads;
 
 namespace CombatCrittersSharp.managers.interfaces
 {
@@ -18,6 +19,8 @@ namespace CombatCrittersSharp.managers.interfaces
         Task<List<Offer>> GetVendorOfferAsync(int id);
 
         Task<string> GetVendorOfferJsonAsync(int id);
+
+        //Task<Offer?> CreateOfferAsync(int vendorId, int newLevel, List<OfferCreationItemPayload> collectItemsPayload, OfferCreationItemPayload giveItemPayload);
 
     }
 }
