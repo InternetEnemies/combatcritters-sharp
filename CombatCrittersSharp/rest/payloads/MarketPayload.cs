@@ -37,7 +37,7 @@ public record OfferCreatorPayload(
 
 public record OfferCreationItemPayload(
     int count,
-    int? itemid,
+    int? id,
     string type
 );
 

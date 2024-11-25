@@ -130,14 +130,14 @@ namespace CombatCrittersSharp.managers.Implementation
                 {
                     sendItems.Add(new OfferCreationItemPayload(
                         count: item.Count,
-                        itemid: item.ItemId,
+                        id: item.ItemId,
                         type: item.Type
                     ));
                 }
 
                 OfferCreationItemPayload recvItems = new OfferCreationItemPayload(
                     count: receiveItem.Count,
-                    itemid: receiveItem.ItemId,
+                    id: receiveItem.ItemId,
                     type: receiveItem.Type
                 );
 

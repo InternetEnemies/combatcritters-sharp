@@ -18,7 +18,7 @@ namespace CombatCrittersSharp.objects.MarketPlace.Implementations
 
         public static OfferCreationItem FromOfferCreationItemPayload(OfferCreationItemPayload payload)
         {
-            return new OfferCreationItem(payload.count, payload.itemid, payload.type);
+            return new OfferCreationItem(payload.count, payload.id, payload.type);
         }
     }
 }
