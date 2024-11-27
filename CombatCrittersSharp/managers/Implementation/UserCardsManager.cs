@@ -1,9 +1,6 @@
 using System.Net.Http.Json;
-using System.Runtime.InteropServices;
-using CombatCrittersSharp.exception;
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects;
-using CombatCrittersSharp.objects.card;
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest.payloads;
@@ -37,18 +34,16 @@ namespace CombatCrittersSharp.managers
             CardQueryPayload[]? cardPayloads = await (await _client.Rest.Get(CardsRoutes.UserCards(_user.Id, query.GetQueryString()))).
                 Content.ReadFromJsonAsync<CardQueryPayload[]>();
 
-            if (cardPayloads == null || cardPayloads.Length == 0)
-            {
-                throw new InvalidOperationException("No cards of such query");
-            }
-
-            //Work with non empty payload.
             var cardStacks = new List<IItemStack<ICard>>();
-            foreach (var cardPayload in cardPayloads)
+            if (cardPayloads != null)
             {
-                //Convert each payload to a card and store it as an ItemStack with a count
-                cardStacks.Add(new ItemStack<ICard>(cardPayload.item.ToCard(), cardPayload.count));
+                foreach (var cardPayload in cardPayloads)
+                {
+                    //Convert each payload to a card and store it as an ItemStack with a count
+                    cardStacks.Add(new ItemStack<ICard>(cardPayload.item.ToCard(), cardPayload.count));
+                }
             }
+            //Return either an empty list or a populated list
             return cardStacks;
         }
     }
