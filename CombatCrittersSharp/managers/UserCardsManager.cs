@@ -30,42 +30,30 @@ namespace CombatCrittersSharp.managers
         /// <returnd> A list of item stacks containing the user's cards</returns>
         public async Task<List<IItemStack<ICard>>> GetCards(ICardQuery query)
         {
-            try
+            //Throw exception if query is null
+            ArgumentNullException.ThrowIfNull(query);
+
+            //Fetch user-specific card payload using the client and user ID
+            CardQueryPayload[]? cardPayloads = await (await _client.Rest.Get(CardsRoutes.UserCards(_user.Id, query.GetQueryString()))).
+                Content.ReadFromJsonAsync<CardQueryPayload[]>();
+
+            if (cardPayloads == null || cardPayloads.Length == 0)
             {
-                //Fetch user-specific card payload using the client and user ID
-                CardQueryPayload[]? cardPayloads = await (await _client.Rest.Get(CardsRoutes.UserCards(_user.Id, query.GetQueryString()))).
-                    Content.ReadFromJsonAsync<CardQueryPayload[]>();
-
-                if (cardPayloads == null)
-                {
-                    throw new Exception("No card payload was received from the server");
-                }
-
-                //Convert paylosds to a list of item stacks
-                var cardStacks = new List<IItemStack<ICard>>();
-                foreach (var cardPayload in cardPayloads)
-                {
-                    //Convert each payload to a card and store it as an ItemStack with a count
-                    cardStacks.Add(new ItemStack<ICard>(cardPayload.item.ToCard(), cardPayload.count));
-                }
-                return cardStacks;
+                throw new InvalidOperationException("No cards of such query");
             }
-            catch (RestException e)
+
+            //Work with non empty payload.
+            var cardStacks = new List<IItemStack<ICard>>();
+            foreach (var cardPayload in cardPayloads)
             {
-                throw new AuthException("Failed to get user cards", e);
+                //Convert each payload to a card and store it as an ItemStack with a count
+                cardStacks.Add(new ItemStack<ICard>(cardPayload.item.ToCard(), cardPayload.count));
             }
-            
-
-        }
-
-        /// <summary>
-        /// Return a card query builder for constructinf card queries.
-        /// </summary>
-        /// <returns> The query builder for cards</returns>
-        public ICardQueryBuilder GetBuilder()
-        {
-            return new CardQueryBuilder();
+            return cardStacks;
         }
     }
+
+
 }
+
 
