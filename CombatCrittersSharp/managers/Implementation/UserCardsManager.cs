@@ -1,9 +1,6 @@
 using System.Net.Http.Json;
-using System.Runtime.InteropServices;
-using CombatCrittersSharp.exception;
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects;
-using CombatCrittersSharp.objects.card;
 using CombatCrittersSharp.objects.card.Interfaces;
 using CombatCrittersSharp.objects.user;
 using CombatCrittersSharp.rest.payloads;
@@ -30,42 +27,28 @@ namespace CombatCrittersSharp.managers
         /// <returnd> A list of item stacks containing the user's cards</returns>
         public async Task<List<IItemStack<ICard>>> GetCards(ICardQuery query)
         {
-            try
+            //Throw exception if query is null
+            ArgumentNullException.ThrowIfNull(query);
+
+            //Fetch user-specific card payload using the client and user ID
+            CardQueryPayload[]? cardPayloads = await (await _client.Rest.Get(CardsRoutes.UserCards(_user.Id, query.GetQueryString()))).
+                Content.ReadFromJsonAsync<CardQueryPayload[]>();
+
+            var cardStacks = new List<IItemStack<ICard>>();
+            if (cardPayloads != null)
             {
-                //Fetch user-specific card payload using the client and user ID
-                CardQueryPayload[]? cardPayloads = await (await _client.Rest.Get(CardsRoutes.UserCards(_user.Id, query.GetQueryString()))).
-                    Content.ReadFromJsonAsync<CardQueryPayload[]>();
-
-                if (cardPayloads == null)
-                {
-                    throw new Exception("No card payload was received from the server");
-                }
-
-                //Convert paylosds to a list of item stacks
-                var cardStacks = new List<IItemStack<ICard>>();
                 foreach (var cardPayload in cardPayloads)
                 {
                     //Convert each payload to a card and store it as an ItemStack with a count
                     cardStacks.Add(new ItemStack<ICard>(cardPayload.item.ToCard(), cardPayload.count));
                 }
-                return cardStacks;
             }
-            catch (RestException e)
-            {
-                throw new AuthException("Failed to get user cards", e);
-            }
-            
-
-        }
-
-        /// <summary>
-        /// Return a card query builder for constructinf card queries.
-        /// </summary>
-        /// <returns> The query builder for cards</returns>
-        public ICardQueryBuilder GetBuilder()
-        {
-            return new CardQueryBuilder();
+            //Return either an empty list or a populated list
+            return cardStacks;
         }
     }
+
+
 }
+
 

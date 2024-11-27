@@ -14,15 +14,8 @@ namespace CombatCrittersSharp.managers.interfaces
         /// </summary>
         /// <param name="query"> The query to get the cards. </param>
         /// <returs> Task<List<ItemStack<ICard>>> The cards of the user in item stacks.</returns>
-         Task<List<IItemStack<ICard>>> GetCards(ICardQuery query);
+        Task<List<IItemStack<ICard>>> GetCards(ICardQuery query);
 
-
-        /// <summary>
-        /// Get the query builder for the cards.
-        /// </summary>
-        /// <returns>CardQueryBuilder the query builder for the cards.</returns>
-
-        ICardQueryBuilder GetBuilder();
     }
 }
 
