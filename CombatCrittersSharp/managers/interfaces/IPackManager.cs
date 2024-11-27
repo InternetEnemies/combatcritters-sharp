@@ -36,6 +36,6 @@ namespace CombatCrittersSharp.managers.interfaces
         /// <param name="slotCount">The number of card slots in each pack, dictating how many cards a user will receive when opening a pack</param>
         /// <returns>Return created Pack</returns>
         /// <exception cref="AuthException"></exception>
-        Task<Pack?> CreatePackAsync(List<int> cardIds, Dictionary<int, int> rarityProbabilities, string packName, string packImage, int slotCount);
+        Task<Pack?> CreatePackAsync(string name, string image, int[] cardIds, List<Dictionary<int, int>> slotRarityProbabilities);
     }
 }
