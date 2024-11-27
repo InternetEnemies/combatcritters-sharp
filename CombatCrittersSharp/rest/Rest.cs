@@ -59,8 +59,16 @@ public class Rest : IRest
         if (!response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
+
+            //Authentication issues.
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
+                response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                throw new AuthException($"Authentication error: {response.StatusCode} - {content}", null);
+            }
             throw new RestException($"Request failed with status code {response.StatusCode} and content: {content}",
                                 response.StatusCode, response);
-        };
+        }
+
     }
 }
