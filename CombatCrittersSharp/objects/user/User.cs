@@ -17,7 +17,6 @@ public class User
     : IUser
 {
     private readonly IClient _client;
-    public IDeckManager Decks { get; }
     public IUserCardsManager Cards { get; }
     public IProfile Profile { get; }
 
@@ -33,8 +32,6 @@ public class User
         this._client = client;
         this.Id = id;
         this.Username = username;
-
-        this.Decks = new DeckManager(client, this);
         this.Cards = new UserCardsManager(client, this);
         this.Profile = new Profile(client, this);
         this.Packs = new PacksManager(client, this);

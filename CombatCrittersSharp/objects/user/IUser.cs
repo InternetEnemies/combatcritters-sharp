@@ -10,7 +10,6 @@ namespace CombatCrittersSharp.objects.user;
 /// </summary>
 public interface IUser
 {
-    IDeckManager Decks { get; }
     IUserCardsManager Cards { get; }
     IProfile Profile { get; }
 
