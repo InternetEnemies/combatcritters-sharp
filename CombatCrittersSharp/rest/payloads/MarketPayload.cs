@@ -1,4 +1,21 @@
+using System.Text.Json;
+
 namespace CombatCrittersSharp.rest.payloads;
+
+//The VendorPayload and the Vendor reputation payload will be 
+public record VendorPayload(
+    int id,
+    string name,
+    string image,
+    VendorReputationPayload reputation,
+    string refresh_time
+);
+public record VendorReputationPayload(
+    int level,
+    int current_xp,
+    int next_level_xp,
+    int prev_level_xp
+);
 
 public record OfferPayload(
     int id,
@@ -9,16 +26,27 @@ public record OfferPayload(
 public record OfferItemPayload(
     string type,
     int count,
-    int item_id
+    object item
 );
 
-public record VendorPayload(
-    int id,
-    string name,
-    string image,
-    VendorReputationPayload reputataion,
-    string refresh_time
+public record OfferCreatorPayload(
+    int level,
+    OfferCreationItemPayload recv_item,
+    OfferCreationItemPayload[] send_items
 );
+
+public record OfferCreationItemPayload(
+    int count,
+    int? id,
+    string type
+);
+
+public enum OfferItemType
+{
+    card,
+    pack,
+    currency
+}
 
 public record OfferDiscountPayload(
     int discount,
@@ -27,12 +55,7 @@ public record OfferDiscountPayload(
     OfferItemPayload[] give
 );
 
-public record VendorReputationPayload(
-    int level,
-    int current_xp,
-    int next_level_xp,
-    int prev_level_xp
-);
+
 
 public record OfferDiscountCreatePayload(
     int offerid,

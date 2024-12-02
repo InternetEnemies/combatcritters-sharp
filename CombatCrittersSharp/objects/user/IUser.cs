@@ -1,8 +1,7 @@
-using CombatCrittersSharp.managers;
+
 using CombatCrittersSharp.managers.interfaces;
 using CombatCrittersSharp.objects.deck;
 using CombatCrittersSharp.objects.profile;
-
 namespace CombatCrittersSharp.objects.user;
 
 /// <summary>
@@ -14,6 +13,8 @@ public interface IUser
     IProfile Profile { get; }
 
     IPackManager Packs { get; }
+
+    IMarketPlaceManager MarketPlace { get; }
     string Username { get; }
     int Id { get; }
 
