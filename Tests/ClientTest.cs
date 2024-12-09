@@ -3,7 +3,7 @@ using Tests.Integration;
 
 namespace Tests;
 
-public class Tests : IntegrationTest
+public class Tests : IntegrationTest 
 {
     IClient _client;
     [SetUp]
